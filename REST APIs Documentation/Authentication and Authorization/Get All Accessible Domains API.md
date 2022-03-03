@@ -10,7 +10,8 @@ This API returns a list of accessible domains of a specific tenant. The returned
 
 > **Version** : 03/02/2022
 
-> **API Server URL** : http(s):// IP address of your NetBrain Web API Server /ServicesAPI/API/V1/CMDB/Domains/
+> **API Server URL** : http(s):// IP address of your NetBrain Web API Server /ServicesAPI/API/V1/CMDB/Domains
+
 > **Authentication** : 
 
 |**Type**|**In**|**Name**|
