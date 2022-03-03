@@ -2,7 +2,7 @@
 # API Server Management
 
 ## ***GET*** /V1/CMDB/APIServers
-Use this function returns all API servers configured in the domain. The user who making this API call need to have domain access along with "Manage Network Settings" Permission. The API will not return API server password and any encrypted content if user configured in extraParams.
+This API returns all API servers configured in the domain. The user who making this API call need to have domain access along with "Manage Network Settings" Permission. The API will not return API server password and any encrypted content if user configured in extraParams.
 
 ## Detail Information
 
