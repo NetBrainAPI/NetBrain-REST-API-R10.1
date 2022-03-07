@@ -8,7 +8,7 @@ This API returns a list of accessible tenants. The returned tenants list varies 
 
 > **Title** : Get All Accessible Tenants API
 
-> **Version** : 02/02/2022
+> **Version** : 03/07/2022
 
 > **API Server URL** : http(s):// < NetBrain Web API Server Address > /ServicesAPI/API/V1/CMDB/Tenants
 
