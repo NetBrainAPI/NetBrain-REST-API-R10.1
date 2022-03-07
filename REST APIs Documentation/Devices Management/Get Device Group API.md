@@ -61,6 +61,7 @@ Call this API to get device groups information.
 |type | integer | The type of device group<br>0: Public group<br>1: Private group<br>2: System group<br>4: Policy device group|
 
 > ***Example***
+```python
 {
     "deviceGroups": [
         {
@@ -97,7 +98,7 @@ Call this API to get device groups information.
     "statusCode": 790200,
     "statusDescription": "Success."
 }
-
+```
 # Full Example
 ```python
 # import python modules 
