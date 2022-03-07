@@ -31,10 +31,10 @@ Use this API to update a domain of a NetBrain tenant.
 | description | String | The new domain description |
 | licenseInfo* | Object | Domain license information |
 | licenseInfo.modules* | Array of objects | Module list |
-| licenseInfo.modules.name* | String | Module name |
+| licenseInfo.modules.name* | String | Module name. Module name includes: <br>Foundation<br>Change Management<br>Application Assurance<br>Intent Based Automation |
 | licenseInfo.modules.amount* | Integer | Module license amount to be assigned |
 | licenseInfo.networkTechs | Array of objects | Network technology list |
-| licenseInfo.networkTechs.name | String | Network Technology name |
+| licenseInfo.networkTechs.name | String | Network Technology name. Network Technology name includes:<br>Cisco ACI<br>WAP<br>vCenter<br>NSX-v<br>Amazon AWS<br>Microsoft Azure<br>Google Cloud Platform |
 | licenseInfo.networkTechs.amount | Integer | Network Technology license amount to be assigned |
 
 ## Query Parameters (\*required)
