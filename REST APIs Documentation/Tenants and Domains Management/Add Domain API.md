@@ -136,7 +136,7 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Get domains failed! - " + str(response.text))
+        print ("Add domain failed! - " + str(response.text))
 
 except Exception as e: print (str(e))
 ```
@@ -189,21 +189,21 @@ Input:
         
 Response:
     
-        "Create a domain failed! - 
+        "Add domain failed! - 
             {
                 "statusCode":791000,
                 "statusDescription":"Null parameter: the parameter 'tenantId' cannot be null.."
             }"
             
         
-        "Create a domain failed! - 
+        "Add domain failed! - 
             {
                 "statusCode":791000,
                 "statusDescription":"Null parameter: the parameter 'domainName' cannot be null."
             }"
             
             
-        "Create a domain failed! - 
+        "Add domain failed! - 
             {
                 "statusCode":791000
                 "statusDescription":"Null parameter: the parameter 'licenseInfo' cannot be null."
@@ -234,7 +234,7 @@ Input:
 
 Response:
     
-            "Get domains failed! - 
+            "Add domain failed! - 
                 {
                     "statusCode":791006,
                     "statusDescription":"tenant with id XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX does not exist."
@@ -266,7 +266,7 @@ Input:
         
 Response:
     
-            "Get domains failed! - 
+            "Add domain failed! - 
                 {"statusCode":795011,
 				"statusDescription":"Foundation nodes amount 100000000 is out of range 100000000 - 19000\r\nChange Management nodes amount 100000000 is out of range 100000000 - 25333\r\nApplication Assurance nodes amount 100000083 is out of range 100000083 - 623832\r\nIntent Based Automation nodes amount 100000010 is out of range 100000010 - 139333\r\n"}
 

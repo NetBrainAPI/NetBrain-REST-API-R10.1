@@ -1,16 +1,16 @@
 
-# Tenant Domain Management API Design
+# Tenant API
 
-## ***POST*** /V2/CMDB/Tenants
-Calling this API to add a tenant to Netbrain system.
+## ***POST*** /V3/CMDB/Tenants
+Use this API to add a tenant to NetBrain system.
 
 ## Detail Information
 
-> **Title** : Add Tenant API<br>
+> **Title** : Add Tenant API
 
-> **Version** : 03/09/2021
+> **Version** : 03/07/2022
 
-> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V2/CMDB/Tenants	
+> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V3/CMDB/Tenants
 
 > **Authentication** : 
 
@@ -19,26 +19,38 @@ Calling this API to add a tenant to Netbrain system.
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |Bearer Authentication| Headers | Authentication token | 
 
-## Request body(****required***)
+## Request body (\*required)
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|tenantName* | string  | The name of the created tenant.  |
+| tenantName* | String | The new tenant name. |
+| description | String | The new tenant description |
+| licenseInfo* | Object | Tenant license information |
+| licenseInfo.modules* | Array of objects | Module list |
+| licenseInfo.modules.name* | String | Module name. Module name includes: <br>Foundation<br>Change Management<br>Application Assurance<br>Intent Based Automation |
+| licenseInfo.modules.amount* | Integer | Module license amount to be assigned |
+| licenseInfo.modules,enable | Boolean | Whether or not to enable the module |
+| licenseInfo.networkTechs | Array of objects | Network technology list |
+| licenseInfo.networkTechs.name | String | Network Technology name. Network Technology name includes:<br>Cisco ACI<br>WAP<br>vCenter<br>NSX-v<br>Amazon AWS<br>Microsoft Azure<br>Google Cloud Platform |
+| licenseInfo.networkTechs.amount | Integer | Network Technology license amount to be assigned |
+| advancedOptions | Object | Tenant advanced setting |
+| advancedOptions.tenantConnSetting | Object | Tenant data DB setting |
+| advancedOptions.tenantConnSetting.servers | Array of Strings | MongoDB server IPs |
+| advancedOptions.tenantConnSetting.replicaSet | String | MongoDB Replica Set name |
+| advancedOptions.tenantConnSetting.user | String | MongoDB username |
+| advancedOptions.tenantConnSetting.password | String | MongoDB password |
+| advancedOptions.liveDataConnSetting | Object | Live data DB setting |
+| advancedOptions.liveDataConnSetting.servers | Array of Strings | MongoDB server IPs |
+| advancedOptions.liveDataConnSetting.replicaSet | String | MongoDB Replica Set name |
+| advancedOptions.liveDataConnSetting.user | String | MongoDB username |
+| advancedOptions.liveDataConnSetting.password | String | Mongodb password |
 
+## Query Parameters (\*required)
+-----------------------------
 
-> ***Example***
+> No parameters required.
 
-
-```python
-{
-    "tenantName": "TenantName",
-}
-```
-
-## Parameters(****required***)
-
->No parameters required.
 
 ## Headers
 
@@ -62,9 +74,20 @@ Calling this API to add a tenant to Netbrain system.
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|tenantId| string | The tenant ID.  |
-|statusCode| integer | The returned status code of executing the API.  |
-|statusDescription| string | The explanation of the status code.  |
+|tenantId| String | The new tenant ID.  |
+|statusCode| Integer | Status code. |
+|statusDescription| String | Status description |
+
+## Response Codes
+|**Code**|**Message**|**Description**|
+|------|------|------|
+| 790200 | OK |  |
+| 791000 | ParameterNull | Null parameter: the parameter 'tenantName' cannot be null.<br>Null parameter: the parameter 'licenseInfo' cannot be null.<br>Null parameter: the parameter 'request body' cannot be null. |
+| 792007 | InvaliSpecialCharacters | Invalid {0}, the {0} can't contain any of the following characters {1}. |
+| 792004 | InvalidStrLen | The value length of 'tenantName' should be between 2 and 20 inclusive.<br>The value length of 'description' should be between 0 and 1024 inclusive. |
+| 791007 | ExistedDataInSystem | The tenant {0} already exists. |
+| 793001 | InternalServerError | System framework level error |
+| 795011 | LicenseOverLimit | {0} {1} amount {2} is out of range {3} - {4} <br>e.g :  ACI ports amount 10 is out of range 2 - 5<br>{0} nodes amount {1} is out of range {2} - {3}<br>e.g:   Change Management nodes amount 20 is out of range  30 -50 |
 
 > ***Example***
 
@@ -81,6 +104,43 @@ Calling this API to add a tenant to Netbrain system.
 
 
 ```python
+# import python modules 
+import requests
+import json
+
+# Set the request inputs
+token = "q7372946-48c4-4291-90ea-4c808633e989"
+
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Tenants"
+
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+body = {
+    "tenantName": "API test1",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Foundation",
+                "amount":10
+            }
+        ]
+    }    
+}  
+
+
+try:
+    # Do the HTTP request
+    response = requests.post(full_url, headers=headers, data = json.dumps(body), verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Create Tenant failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
 
 ```
 
@@ -91,78 +151,21 @@ Calling this API to add a tenant to Netbrain system.
 
 
 ```python
-curl -X POST \
-  http://192.168.28.79/ServicesAPI/API/V1/CMDB/Tenants \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: b91448a7-608e-4aad-bfa7-6b1adf21b6fd' \
-  -H 'cache-control: no-cache' \
-  -H 'token: 855b2da0-306b-4c29-b37f-be09e33e2d02' \
-  -d '{
-        "tenantName" : "testTenant",
-        "maximumNodes" : 100
-    }'
+curl --location --request POST 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Tenants' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: q7372946-48c4-4291-90ea-4c808633e989' \
+--data-raw '{
+    "tenantName": "API test",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Foundation",
+                "amount":10
+            }
+        ]
+    }    
+}'
 ```
 
- # Error Examples:
 
-
-```python
-###################################################################################################################    
-
-"""Error 1: empty inputs"""
-
-Input:
-        
-        tenantName = "" # Can not be null
-        maximumNodes = None # Can not be null
-        
-Response:
-    
-        "Add tenant failed! - 
-            {
-                "statusCode":791000, 
-                "statusDescription":"Null parameter: the parameter 'tenantName' cannot be null."
-            }"
-            
-        
-        "Add tenant failed! - 
-            {
-                "statusCode":791000,
-                "statusDescription":"Null parameter: the parameter 'maximumNodes' cannot be null."
-            }"
-
-###################################################################################################################    
-
-"""Error 1: wrong inputs""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Input:
-        
-        tenantName = 12345
-        maximumNodes = "1"
-        
-Response:
-    
-            "{
-                'tenantId': '2492adc4-6014-4c1f-b2d3-be4dadc4dd3e', 
-                'statusCode': 790200, 
-                'statusDescription': 'Success.'
-            }"
-
-###################################################################################################################    
-
-"""Error 1: input tenant name already exist"""
-
-Input:
-        
-        tenantName = "testTenant" # tenant named as "testTenant" already exist.
-        maximumNodes = 100
-        
-Response:
-    
-            "Add tenant failed! - 
-                {
-                    "statusCode":791007,
-                    "statusDescription":"tenant testTenant already exists."
-                }"
-
-```

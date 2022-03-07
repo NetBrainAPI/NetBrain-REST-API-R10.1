@@ -120,7 +120,6 @@ body = {
             }
         ]
     }
-    
 }
 
 try:
@@ -132,7 +131,7 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Get domains failed! - " + str(response.text))
+        print ("Update domain failed! - " + str(response.text))
 
 except Exception as e: print (str(e))
 ```
