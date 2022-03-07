@@ -176,11 +176,9 @@ full_url = "https://integrationLab.netbraintech.com/ServicesAPI/API/V1/CMDB/Tena
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 headers["Token"] = token
 
-data = {"tenantId": tenantId}
-
 try:
     # Do the HTTP request
-    response = requests.get(full_url, params=data, headers=headers, verify=False)
+    response = requests.get(full_url, headers=headers, verify=False)
     # Check for HTTP codes other than 200
     if response.status_code == 200:
         # Decode the JSON response into a dictionary and use the data
