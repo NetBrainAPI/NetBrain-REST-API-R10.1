@@ -137,7 +137,7 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Create Tenant failed! - " + str(response.text))
+        print ("Update Tenant failed! - " + str(response.text))
 
 except Exception as e: print (str(e))
 ```
