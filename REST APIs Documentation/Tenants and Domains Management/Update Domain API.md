@@ -1,16 +1,16 @@
 
-# Tenant Domain Management API Design
+# Domain API
 
-## ***PUT*** /V1/CMDB/Domains
-Calling this API to update a domain specified by domain id(How to get ID? See Get All Domains of a Tenant.).
+## ***PUT*** /V3/CMDB/Domains
+Use this API to update a domain of a NetBrain tenant.
 
 ## Detail Information
 
-> **Title** : Update Domain API<br>
+> **Title** : Update Domain API
 
-> **Version** : 02/05/2019.
+> **Version** : 03/07/2022
 
-> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/Domains	
+> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V3/CMDB/Domains
 
 > **Authentication** : 
 
@@ -19,32 +19,28 @@ Calling this API to update a domain specified by domain id(How to get ID? See Ge
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |Bearer Authentication| Headers | Authentication token | 
 
-## Request body(****required***)
+## Request body (\*required)
+-------------------------
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|DomainId* | string | The domain ID.  |
-|domainName | string | The name of current domain.  |
-|maximumNodes | integer  | The maximum license nodes that the tenant owns. The number must be greater than 0.  |
-|description | string  | The description about the tenant.  |
+| tenantId* | String | Tenant ID |
+| domainId* | String | Domain ID |
+| domainName* | String | The new domain name |
+| description | String | The new domain description |
+| licenseInfo* | Object | Domain license information |
+| licenseInfo.modules* | Array of objects | Module list |
+| licenseInfo.modules.name* | String | Module name |
+| licenseInfo.modules.amount* | Integer | Module license amount to be assigned |
+| licenseInfo.networkTechs | Array of objects | Network technology list |
+| licenseInfo.networkTechs.name | String | Network Technology name |
+| licenseInfo.networkTechs.amount | Integer | Network Technology license amount to be assigned |
 
+## Query Parameters (\*required)
 
-> ***Example***
+> No parameters required.
 
-
-```python
-{
-    "domainId": "5e75247a-309c-4231-96a5-823b6cb1e78d",
-    "domainName": "TenantName",
-    "description": "Description",
-    "maximumNodes": "5"
-}
-```
-
-## Parameters(****required***)
-
->No parameters required.
 
 ## Headers
 
@@ -68,8 +64,20 @@ Calling this API to update a domain specified by domain id(How to get ID? See Ge
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|statusCode| integer | The returned status code of executing the API.  |
-|statusDescription| string | The explanation of the status code.  |
+|statusCode| Integer | Status code. |
+|statusDescription| String | Status description |
+
+## Response Codes
+|**Code**|**Message**|**Description**|
+|------|------|------|
+| 790200 | OK |  |
+| 791000 | ParameterNull | Null parameter: the parameter 'tenantId' cannot be null.<br>Null parameter: the parameter 'domainName' cannot be null.<br>Null parameter: the parameter 'licenseInfo' cannot be null.<br>Null parameter: the parameter 'request body' cannot be null. |
+| 792007 | InvaliSpecialCharacters | Invalid {0}, the {0} can't contain any of the following characters {1}. |
+| 792004 | InvalidStrLen | The value length of '{0}' should be between {1} and {2} inclusive. |
+| 793001 | InternalServerError | System framework level error |
+| 791006 | NoDataInSystem | The tenant with id {0} does not exist.<br>domain with id {0} does not exist. |
+| 795011 | LicenseOverLimit | ACI ports amount 10 can not be smaller than 20<br>ACI ports amount 10 can not be greater than 100 |
+| 795003 | NoPermission | Insufficient permissions: the current user has insufficient permissions to perform the requested operation. |
 
 > ***Example***
 
@@ -87,39 +95,46 @@ Calling this API to update a domain specified by domain id(How to get ID? See Ge
 ```python
 # import python modules 
 import requests
-import time
-import urllib3
-import pprint
 import json
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set the request inputs
-token = "855b2da0-306b-4c29-b37f-be09e33e2d02"
-nb_url = "http://192.168.28.79"
-full_url = nb_url + "/ServicesAPI/API/V1/CMDB/Domains"
+token = "q7372946-48c4-4291-90ea-4c808633e989"
+tenantId = "94f04b73-7368-e833-e4be-0a2bc6d44780"
+domainId = "96b943fb-3b73-4432-8b8a-80255e4e592f"
+
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Domains"
+
+# Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 headers["Token"] = token
-
-DomainId = "668489d7-54d9-41a9-a04e-0283f46e9135"
-domainName = "testDomain"
-maximumNodes = None
-
 body = {
-    "DomainId": DomainId,
-    "domainName": domainName,
-    "maximumNodes": maximumNodes
+    "tenantId":tenantId,
+    "domainId":domainId,
+    "domainName":"API test",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Foundation",
+                "amount":100
+               
+            }
+        ]
+    }
+    
 }
 
 try:
-    response = requests.put(full_url, data = json.dumps(body), headers = headers, verify = False)
+    # Do the HTTP request
+    response = requests.put(full_url, headers=headers, data = json.dumps(body), verify=False)
+    # Check for HTTP codes other than 200
     if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
         result = response.json()
         print (result)
     else:
-        print ("Update domain failed! - " + str(response.text))
-    
-except Exception as e:
-    print (str(e)) 
+        print ("Get domains failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
 ```
 
     {'statusCode': 790200, 'statusDescription': 'Success.'}
@@ -129,60 +144,24 @@ except Exception as e:
 
 
 ```python
-curl -X PUT \
-  http://192.168.28.79/ServicesAPI/API/V1/CMDB/Domains \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: d2cb2e99-c3d7-449a-be78-c7144cc88b10' \
-  -H 'cache-control: no-cache' \
-  -H 'token: 855b2da0-306b-4c29-b37f-be09e33e2d02' \
-  -d '{
-        "DomainId": "668489d7-54d9-41a9-a04e-0283f46e9135",
-        "domainName": "testDomain",
-        "maximumNodes": ""
-    }'
+curl --location --request PUT 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Domains' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: q7372946-48c4-4291-90ea-4c808633e989' \
+--data-raw '{
+    "tenantId":"94f04b73-7368-e833-e4be-0a2bc6d44780",
+    "domainId":"96b943fb-3b73-4432-8b8a-80255e4e592f",
+    "domainName":"API test",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Foundation",
+                "amount":100
+            }
+        ]
+    }
+    
+}
+'
 ```
 
-# Error Examples:
-
-
-```python
-################################################################################################################### 
-
-"""Basic errors similar with "Add Domain API" """
-
-###################################################################################################################    
-
-"""Error 1: munltiple update with same input values"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Input:
-        
-        DomainId = "668489d7-54d9-41a9-a04e-0283f46e9135" # no new values in this update
-        domainName = "testDomain"
-        maximumNodes = None
-        
-Response:
-    
-        "{
-            'statusCode': 790200, 
-            'statusDescription': 'Success.'
-        }"
-            
-###################################################################################################################    
-
-"""Error 2: Id and name are not correspond """
-
-Input:
-        
-        DomainId = "668489d7-54d9-41a9-a04e-0283f46e9135"
-        domainName = "testDomain111"
-        maximumNodes = None
-        
-Response:
-    
-        "{
-            'statusCode': 790200, 
-            'statusDescription': 'Success.'
-        }"
-            
-        
-```
