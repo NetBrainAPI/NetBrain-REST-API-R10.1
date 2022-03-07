@@ -1,16 +1,16 @@
 
-# Tenant Domain Management API Design
+# Domain API
 
-## ***POST*** /V2/CMDB/Domains
-Calling this API to create a new domain in current tenant.
+## ***POST*** /V3/CMDB/Domains
+Use this API to add a domain to a NetBrain Tenant.
 
 ## Detail Information
 
-> **Title** : Add Domain API<br>
+> **Title** : Add Domain API
 
-> **Version** : 03/09/2021
+> **Version** : 03/07/2022
 
-> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V2/CMDB/Domains	
+> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V3/CMDB/Domains
 
 > **Authentication** : 
 
@@ -19,31 +19,27 @@ Calling this API to create a new domain in current tenant.
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |Bearer Authentication| Headers | Authentication token | 
 
-## Request body(****required***)
+## Request body (\*required)
+-------------------------
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|tenantId* | string | The tenant ID.  |
-|domainName* | string | The name of the created domain.  |
-|description | string  | The description about the tenant.  |
+| tenantId* | String | Tenant ID |
+| domainName* | String | The new domain name |
+| description | String | The new domain description |
+| licenseInfo* | Object | Domain license information |
+| licenseInfo.modules* | Array of objects | Module list |
+| licenseInfo.modules.name* | String | Module name. Module name includes: <br>Foundation<br>Change Management<br>Application Assurance<br>Intent Based Automation|
+| licenseInfo.modules.amount* | Integer | Module license amount to be assigned |
+| licenseInfo.networkTechs | Array of objects | Network technology list |
+| licenseInfo.networkTechs.name | String | Network Technology name. Network Technology name includes:<br>Cisco ACI<br>WAP<br>vCenter<br>NSX-v<br>Amazon AWS<br>Microsoft Azure<br>Google Cloud Platform|
+| licenseInfo.networkTechs.amount | Integer | Network Technology license amount to be assigned |
 
+## Query Parameters (\*required)
 
-> ***Example***
+> No parameters required.
 
-
-```python
-{
-    "tenantId": "4e75247a-309c-4231-96a5-823b6cb1e78d",
-    "domainName": "domainName",
-    "description": "Description",
-    "maximumNodes": "5"
-}
-```
-
-## Parameters(****required***)
-
->No parameters required.
 
 ## Headers
 
@@ -67,20 +63,34 @@ Calling this API to create a new domain in current tenant.
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|tenantId| string | The tenant ID.  |
-|statusCode| integer | The returned status code of executing the API.  |
-|statusDescription| string | The explanation of the status code.  |
+|domainId| String | The new domain ID |
+|statusCode| Integer | Status code. |
+|statusDescription| String | Status description |
+
+## Response Codes
+|**Code**|**Message**|**Description**|
+|------|------|------|
+| 790200 | OK |  |
+| 791000 | ParameterNull | Null parameter: the parameter 'tenantId' cannot be null.<br>Null parameter: the parameter 'domainName' cannot be null.<br>Null parameter: the parameter 'licenseInfo' cannot be null.<br>Null parameter: the parameter 'request body' cannot be null. |
+| 792007 | InvaliSpecialCharacters | Invalid {0}, the {0} can't contain any of the following characters {1}. |
+| 792004 | InvalidStrLen | The value length of '{0}' should be between {1} and {2} inclusive. |
+| 791007 | ExistedDataInSystem | {0} already exists. |
+| 793001 | InternalServerError | System framework level error |
+| 791006 | NoDataInSystem | The tenant with id {0} does not exist. |
+| 795011 | LicenseOverLimit | ACI ports amount 10 can not be smaller than 20<br>ACI ports amount 10 can not be greater than 100 |
 
 > ***Example***
 
 
 ```python
 {
+    "domainId": "e5fa1da2-f9b5-465c-a060-a89a09dc3f8e",
     "statusCode": 790200,
-    "statusDescription": "string",
-    "domainId": "3e75247a-309c-4231-96a5-823b6cb1e78d"
+    "statusDescription": "Success."
 }
 ```
+
+
 
 # Full Example: 
 
@@ -88,39 +98,47 @@ Calling this API to create a new domain in current tenant.
 ```python
 # import python modules 
 import requests
-import time
-import urllib3
-import pprint
 import json
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set the request inputs
-token = "855b2da0-306b-4c29-b37f-be09e33e2d02"
-nb_url = "http://192.168.28.79"
-full_url = nb_url + "/ServicesAPI/API/V1/CMDB/Domains"
+token = "f7372946-48c4-4291-90ea-4c808633e922"
+tenantId = "74f678b73-7368-e833-e4be-0a2bc6d44780"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Domains"
+
+# Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 headers["Token"] = token
-
-tenantId = "6f4e381a-1752-4b84-8a59-6ed6391614cf"
-domainName = "testDomain"
-maximumNodes = 5
-
 body = {
-    "tenantId" : tenantId,
-    "domainName" : domainName,
-    "maximumNodes" : maximumNodes
+    "tenantId": tenantId,
+    "domainName": "API test",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Change Management",
+                "amount":1
+            }
+        ],
+        "networkTechs":[
+            {
+                "name":"Amazon AWS",
+                "amount":10
+            }
+        ]
+    }
 }
 
 try:
-    response = requests.post(full_url, data = json.dumps(body), headers = headers, verify = False)
+    # Do the HTTP request
+    response = requests.post(full_url, headers=headers, data = json.dumps(body), verify=False)
+    # Check for HTTP codes other than 200
     if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
         result = response.json()
         print (result)
     else:
-        print ("Create a domain failed! - " + str(response.text))
-    
-except Exception as e:
-    print (str(e)) 
+        print ("Get domains failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
 ```
 
     {'domainId': '668489d7-54d9-41a9-a04e-0283f46e9135', 'statusCode': 790200, 'statusDescription': 'Success.'}
@@ -130,17 +148,29 @@ except Exception as e:
 
 
 ```python
-curl -X POST \
-  http://192.168.28.79/ServicesAPI/API/V1/CMDB/Domains \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: 2d39e7fc-af8e-4295-a476-3544f288f85a' \
-  -H 'cache-control: no-cache' \
-  -H 'token: 855b2da0-306b-4c29-b37f-be09e33e2d02' \
-  -d '{
-        "tenantId" : "6f4e381a-1752-4b84-8a59-6ed6391614cf",
-        "domainName" : "testDomain1",
-        "maximumNodes" : 1
-    }'
+curl --location --request POST 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/CMDB/Domains' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: f7372946-48c4-4291-90ea-4c808633e922' \
+--data-raw '{
+    "tenantId": "74f678b73-7368-e833-e4be-0a2bc6d44780",
+    "domainName": "API test",
+    "licenseInfo":{
+        "modules":[
+            {
+                "name":"Change Management",
+                "amount":1
+            }
+        ],
+        "networkTechs":[
+            {
+                "name":"Amazon AWS",
+                "amount":10
+            }
+        ]
+    }
+}
+'
 ```
 
 # Error Examples:
@@ -153,16 +183,16 @@ curl -X POST \
 
 Input:
         
-        tenantId = "" # Can not be null
-        domainName = "" # Can not be null
-        maximumNodes = None # Can not be null
+        "tenantId" = "" # Can not be null
+        "domainName" = "" # Can not be null
+        "licenseInfo" = None # Can not be null
         
 Response:
     
         "Create a domain failed! - 
             {
                 "statusCode":791000,
-                "statusDescription":"Null parameter: the parameter 'tenantId' cannot be null."
+                "statusDescription":"Null parameter: the parameter 'tenantId' cannot be null.."
             }"
             
         
@@ -176,7 +206,7 @@ Response:
         "Create a domain failed! - 
             {
                 "statusCode":791000
-                "statusDescription":"Null parameter: the parameter 'maximumNodes' cannot be null."
+                "statusDescription":"Null parameter: the parameter 'licenseInfo' cannot be null."
             }"
 
 ###################################################################################################################    
@@ -185,89 +215,59 @@ Response:
 
 Input:
         
-        tenantId = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # No tenant have a ID like this.
-        domainName = "testDomain2"
-        maximumNodes = 1
+        "tenantId" = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # No tenant have a ID like this.
+        "domainName" = "testDomain2"
+        "licenseInfo":{
+			"modules":[
+				{
+					"name":"Change Management",
+					"amount":1
+				}
+			],
+			"networkTechs":[
+				{
+					"name":"Amazon AWS",
+					"amount":10
+				}
+			]
+		}
 
-        
 Response:
     
-            "Create a domain failed! - 
+            "Get domains failed! - 
                 {
                     "statusCode":791006,
                     "statusDescription":"tenant with id XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX does not exist."
                 }"
 
-#--------------------------------------------------------------------------------------------------------------------
-
-Input:""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        
-        tenantId = "6f4e381a-1752-4b84-8a59-6ed6391614cf"
-        domainName = 12345 # Shouldn't be integer
-        maximumNodes = 1
-
-        
-Response:
-    
-            "{
-                'domainId': 'c5ed26e6-c2ed-47b3-8b00-8aa4c016a5c3', 
-                'statusCode': 790200, 
-                'statusDescription': 'Success.'
-            }"
-            
-#--------------------------------------------------------------------------------------------------------------------
-
-Input:""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        
-        tenantId = "6f4e381a-1752-4b84-8a59-6ed6391614cf"
-        domainName = 123456
-        maximumNodes = "10" # Shouldn't be string
-
-        
-Response:
-    
-            "{
-                'domainId': '9f43080f-d502-4ddb-9c76-006c3ef665ad', 
-                'statusCode': 790200, 
-                'statusDescription': 'Success.'
-            }"
-            
 ###################################################################################################################    
 
 """Error 3: domain maximumNodes greater than tenant maximumNodes"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Input:
         
-        tenantId = "6f4e381a-1752-4b84-8a59-6ed6391614cf"
-        domainName = "1234567"
-        maximumNodes = 100 # the rest node in current domain is less than 100.
+        "tenantId" = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # No tenant have a ID like this.
+        "domainName" = "testDomain2"
+        "licenseInfo":{
+			"modules":[
+				{
+					"name":"Foundation",
+					"amount":100000000
+				}
+			],
+			"networkTechs":[
+				{
+					"name":"Amazon AWS",
+					"amount":10
+				}
+			]
+		}
 
         
 Response:
     
-            "Create a domain failed! - 
-                {
-                    "statusCode":791002,
-                    "statusDescription":"Invalid value , node size requested: 100, available: 83"
-                }
+            "Get domains failed! - 
+                {"statusCode":795011,
+				"statusDescription":"Foundation nodes amount 100000000 is out of range 100000000 - 19000\r\nChange Management nodes amount 100000000 is out of range 100000000 - 25333\r\nApplication Assurance nodes amount 100000083 is out of range 100000083 - 623832\r\nIntent Based Automation nodes amount 100000010 is out of range 100000010 - 139333\r\n"}
 
-###################################################################################################################    
-
-"""Error 4: duplicate created"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Input:
-        
-        tenantId = "6f4e381a-1752-4b84-8a59-6ed6391614cf"
-        domainName = "testDomain" # domain named as "testDomain" in current domain is already exist.
-        maximumNodes = 5
-
-
-        
-Response:
-    
-            "Create a domain failed! - 
-                {
-                    "statusCode":791007,
-                    "statusDescription":"domain testDomain already exists."
-                }"
 ```
