@@ -1,22 +1,20 @@
 
-# License Node Information REST API Design
+# System License REST API Design
 
-GET /V2/System/nodeinfo
+GET /V3/System/nodeinfo
 -----------------------
 
-Call this API to get the overall system license node information.
-
-User must have System Admin privilege to issue this API call.
+Get system license information.
+Support both Separate and Universal Modes.
 
 Detail Information
 ------------------
 
-> Title: License Node Information API
+> Title: System License API
 
-> Version: 03/09/2021
+> Version: 03/07/2022
 
-> API Server URL: http(s)://IP Address of NetBrain Web API
-Server/ServicesAPI/API/V2/System/nodeinfo
+> API Server URL: http(s)://IP Address of NetBrain Web API Server/ServicesAPI/API/V3/System/nodeinfo
 
 > Authentication:
 
@@ -36,10 +34,8 @@ Query Parameters (\*required)
 
 Path Parameters (\*required)
 -----------------------------
-| **Name**     | **Type** | **Description**                                        |
-|--------------|----------|--------------------------------------------------------|
-| tenantId     | String   | To get the license information of the specified tenant |
-| domainId     | String   | To get the license information of the specified domain |
+
+> No parameters required.
 
 Headers
 -------
@@ -62,96 +58,118 @@ Response
 
 | **Name**       | **Type**         | **Description**                        |
 |----------------|------------------|----------------------------------------|
-| module         | Array of objects | Module list                            |
-| module.name    | String           | Module name                            |
-| module.nodes   | Integer          | License node the module needs          |
-| module.enabled | Bool             | Whether or not the module is enabled   |
-| tech           | Array of objects | Network technology list                |
-| tech.name      | String           | Network technology name                |
-| tech.total     | Integer          | Network technology total license nodes |
-| tech.used      | Integer          | Network technology used license nodes  |
+| licenseInfo | Object | System license information |
+| licenseInfo.module         | Array of objects | Module list |
+| licenseInfo.module.name    | String | Module name |
+| licenseInfo.module.max_amount | Integer | Maximum license amount |
+| licenseInfo.module.available_amount | Integer | Available license amount |
+| licenseInfo.module.status | String | Module license status |
+| licenseInfo.networkTechs | Array of objects | Network technology list |
+| licenseInfo.networkTechs.name | String | Network technology name |
+| licenseInfo.networkTechs.max_amount | Integer | Network technology maximum amount |
+| licenseInfo.networkTechs.available_amount | Integer | Network technology available amount |
+| licenseInfo.networkTechs.status | String | Network technology license status |
+| statusCode | Integer | Status code |
+| statusDescription | String | Status description |
 
-***Note: Error Code clarification***
+## Response Codes
 
-| **Code** | **Message** |
-|------------------------------------|----------|
-| 790200 | Success |
-| 795012 | License is expired. |
-| 793001 | System framework level error. |
+|**Code**|**Message**|**Description**|
+|------|------|------|
+| 790200 | OK |  |
+| 793001 | InternalServerError | System framework level error |
 
 
 ***Example***
-
-
 ```python
 {
-    "totalMaximumNodes": 11570000,
-    "totalFreeNodes": 0,
-    "totalUsedNodes": 11570000,
-    "tenants": [
-        {
-            "tenantId": "088e3cc5-f508-11c3-8f7d-665a3f8de509",
-            "tenantName": "Initial Tenant",
-            "description": "This is the initial tenant",
-            "tenantMaximumNodes": 11570000,
-            "tenantFreeNodes": 11560000,
-            "tenantUsedNodes": 10000,
-            "domains": [
-                {
-                    "domainId": "b986a07f-f128-453e-ba08-5497ba8ab8fa",
-                    "domainName": "Domain1",
-                    "description": "",
-                    "domainMaximumNodes": 10000,
-                    "domainFreeNodes": 9919,
-                    "domainUsedNodes": 81
-                }
-            ]
-        }
-    ],
+    "licenseInfo": {
+        "networkTechs": [
+            {
+                "name": "Cisco ACI",
+                "max_amount": 200000,
+                "status": "In Use",
+                "available_max_amount": 180000
+            },
+            {
+                "name": "WAP",
+                "max_amount": 200000,
+                "status": "In Use",
+                "available_max_amount": 180000
+            },
+            {
+                "name": "Amazon AWS",
+                "max_amount": 200000,
+                "status": "In Use",
+                "available_max_amount": 180000
+            }
+        ],
+        "modules": [
+            {
+                "name": "Foundation",
+                "max_amount": 200000,
+                "status": "In Use",
+                "available_max_amount": 178945
+            },
+            {
+                "name": "Change Management",
+                "max_amount": 266660,
+                "status": "In Use",
+                "available_max_amount": 238939
+            },
+            {
+                "name": "Application Assurance",
+                "max_amount": 6566640,
+                "status": "In Use",
+                "available_max_amount": 5908921
+            },
+            {
+                "name": "Intent Based Automation",
+                "max_amount": 1466660,
+                "status": "In Use",
+                "available_max_amount": 1318939
+            }
+        ]
+    },
     "statusCode": 790200,
     "statusDescription": "Success."
 }
 ```
 
 # Full Example
-
-
 ```python
 # import python modules 
 import requests
-import time
-import urllib3
-import pprint
-#urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import json
 
-token = "87ccc8aa-6550-41cd-a54b-ae11b521a837" 
- 
-headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}  
-headers['token'] = token
-full_url = "http://192.168.28.139/ServicesAPI/API/V1/System/nodeinfo"
+# Set the request inputs
+token = "0f93390b-9b11-41b5-9d89-3fc0b1e8af10"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/System/nodeinfo"
 
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
 try:
     # Do the HTTP request
     response = requests.get(full_url, headers=headers, verify=False)
     # Check for HTTP codes other than 200
     if response.status_code == 200:
         # Decode the JSON response into a dictionary and use the data
-        js = response.json()
-        print (js)
+        result = response.json()
+        print (result)
     else:
-        print ("Get Node Information failed! - " + str(response.text))
-except Exception as e:
-    print (str(e))
-```
+        print ("Get License failed! - " + str(response.text))
 
-    {'totalMaximumNodes': 11570000, 'totalFreeNodes': 0, 'totalUsedNodes': 11570000, 'tenants': [{'tenantId': '088e3cc5-f508-11c3-8f7d-665a3f8de509', 'tenantName': 'Initial Tenant', 'description': 'This is the initial tenant', 'tenantMaximumNodes': 11570000, 'tenantFreeNodes': 11560000, 'tenantUsedNodes': 10000, 'domains': [{'domainId': 'b986a07f-f128-453e-ba08-5497ba8ab8fa', 'domainName': 'Domain1', 'description': '', 'domainMaximumNodes': 10000, 'domainFreeNodes': 9919, 'domainUsedNodes': 81}]}], 'statusCode': 790200, 'statusDescription': 'Success.'}
-    
+except Exception as e: print (str(e))
+
+``` 
 
 # cURL Code from Postman
 
-
 ```python
-curl --location --request GET 'http://192.168.28.139/ServicesAPI/API/V1/System/nodeinfo' \
---header 'token: 87ccc8aa-6550-41cd-a54b-ae11b521a837'
+curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V3/System/nodeinfo' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 0f93390b-9b11-41b5-9d89-3fc0b1e8af10' \
+--data-raw ''
 ```
