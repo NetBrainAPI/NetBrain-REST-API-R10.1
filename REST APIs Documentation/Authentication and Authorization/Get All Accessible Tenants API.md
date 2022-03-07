@@ -198,10 +198,10 @@ except Exception as e: print (str(e))
 
 
 ```python
-curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/Tenants' \
+curl --location --request GET 'https://IntegrationLab.netbraintech.com/ServicesAPI/API/V1/CMDB/Tenants' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'token: 360af44a-0737-437d-9814-563a9808dd5a'
+--header 'token: 460af44a-0737-437d-9814-563a9808dd5a'
 ```
 
 ## Error Example : 
