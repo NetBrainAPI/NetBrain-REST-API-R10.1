@@ -191,6 +191,7 @@ except Exception as e: print (str(e))
 
 ```
 {'tenants': [{'tenantId': '74f04b73-7368-e833-e4be-0a2bc6d44780', 'tenantName': 'Initial Tenant', 'licenseInfo': {'networkTechs': [{'name': 'Cisco ACI', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'WAP', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'vCenter', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'NSX-v', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'Amazon AWS', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'Microsoft Azure', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}, {'name': 'Google Cloud Platform', 'max_amount': 200000, 'min_amount': 1000, 'amount': 20000}], 'modules': [{'name': 'Foundation', 'max_amount': 199000, 'min_amount': 1000, 'amount': 20000}, {'name': 'Change Management', 'max_amount': 265660, 'min_amount': 1333, 'amount': 26666}, {'name': 'Application Assurance', 'max_amount': 6565640, 'min_amount': 32832, 'amount': 656664}, {'name': 'Intent Based Automation', 'max_amount': 1465660, 'min_amount': 7333, 'amount': 146666}]}, 'description': 'This is the initial tenant'}], 'description': ''}], 'statusCode': 790200, 'statusDescription': 'Success.'}
+```
 
 # cURL Code from Postman
 
@@ -208,7 +209,7 @@ curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/
 ```python
 ###################################################################################################################    
 
-"""Error 1: empty url/wrong url"""
+"""Error 1: Empty URL/Wrong URL"""
 
 Input:
     token = "828a4561-5ee5-40ac-bf98-01788be48330" 
@@ -220,7 +221,7 @@ Response:
 
 ###################################################################################################################     
 
-"""Error 2: empty token/wrong token"""
+"""Error 2: Empty Token/Wrong Token"""
 
 Input:
     token = "" 
