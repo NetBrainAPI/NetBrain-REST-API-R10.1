@@ -47,7 +47,6 @@ Use this API to add a tenant to NetBrain system.
 | advancedOptions.liveDataConnSetting.password | String | Mongodb password |
 
 ## Query Parameters (\*required)
------------------------------
 
 > No parameters required.
 
