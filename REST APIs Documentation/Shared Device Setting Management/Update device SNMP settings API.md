@@ -9,7 +9,7 @@ This API is used to update device SNMP settings in current domain. The response 
 
 >**Title:** Update device SNMP settings API
 
->**Version:** 05/27/2020
+>**Version:** 03/08/2022
 
 >**API Server URL:** http(s)://IP Address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting
 
@@ -23,26 +23,25 @@ This API is used to update device SNMP settings in current domain. The response 
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
-|shareDeviceSettings.HostName| string | Device hostname. |
-|shareDeviceSettings.ManageIp | string | Device management IP address. |
-|shareDeviceSettings.SNMP_setting| object | SNMP setting of current device. |
-|shareDeviceSettings.SNMP_setting.roString| string  | value of device snmp RO.  |
-|shareDeviceSettings.SNMP_setting.rwString| string | value of device snmp RWq. |
-|shareDeviceSettings.SNMP_setting.snmpPort| integer | SNMP port number. |
-|shareDeviceSettings.SNMP_setting.snmpVersion| integer | version number of snmp version for current device |
-|shareDeviceSettings.SNMP_setting.UseCustomizedManagementIp| bool | whether current device using the customized management IP.|
-|shareDeviceSettings.SNMP_setting.v3| string | Alies name. |
-|shareDeviceSettings.SNMP_setting.retrieve_CPU_OID| string | value of customized management IP retrieve CPU OID. |
-|shareDeviceSettings.SNMP_setting.retrieve_memory_OID| string | value of customized management IP retrieve memory OID.|
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp| object | SNMP customized management IP setting . |
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp.ManageIp| string | value of customized management IP. |
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp.snmpVersion| string | customized SNMP version. |
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp.LiveStatus| integer | SNMP setting of current device. |
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp.ro| string | value of customized management IP RO. |
-|shareDeviceSettings.SNMP_setting.CustomizedManagementIp.rw| string | value of customized management IP RW. |
+|HostName| string | Device hostname. It is required if no input on ManageIp|
+|ManageIp | string | Device management IP address. It is required if no input on HostName |
+|SNMP_setting| object | SNMP setting of current device. |
+|SNMP_setting.roString| string  | value of device snmp RO.  |
+|SNMP_setting.rwString| string | value of device snmp RWq. |
+|SNMP_setting.snmpPort| integer | SNMP port number. |
+|SNMP_setting.snmpVersion| integer | version number of snmp version for current device |
+|SNMP_setting.UseCustomizedManagementIp| bool | whether current device using the customized management IP.|
+|SNMP_setting.v3| string | Alies name. |
+|SNMP_setting.retrieve_CPU_OID| string | value of customized management IP retrieve CPU OID. |
+|SNMP_setting.retrieve_memory_OID| string | value of customized management IP retrieve memory OID.|
+|SNMP_setting.CustomizedManagementIp| object | SNMP customized management IP setting . |
+|SNMP_setting.CustomizedManagementIp.ManageIp| string | value of customized management IP. |
+|SNMP_setting.CustomizedManagementIp.snmpVersion| string | customized SNMP version. |
+|SNMP_setting.CustomizedManagementIp.LiveStatus| integer | SNMP setting of current device. |
+|SNMP_setting.CustomizedManagementIp.ro| string | value of customized management IP RO. |
+|SNMP_setting.CustomizedManagementIp.rw| string | value of customized management IP RW. |
 
 ***Example***
-
 
 ```python
 API Body = {  
@@ -84,6 +83,44 @@ API Body = {
 |------|------|------|
 |token|string|Authentication token, get from login API.|
 
+ ## Full Example : 
+ ```python
+ # import python modules 
+import requests
+import time
+import urllib3
+import pprint
+import json
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Set the request inputs
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting"
+body = {
+    "HostName": "US-BOS-R1",
+    "SNMP_setting":{
+        "roString":"public"
+    }
+}
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+try:
+    # Do the HTTP request
+    response = requests.put(full_url, data = json.dumps(body), headers=headers, verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Update device SNMP settings failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
+ ```
+	{'statusCode': 790200, 'statusDescription': 'Success.'}
+	
+
 ## Response
 
 | Code | Message | Description |
@@ -92,3 +129,17 @@ API Body = {
 | 794011 | OperationFailed | There is no match hostname or managementip founded.<br>This device is locked, can not be updated.<br>Invalid IP.<br>Please insert a correct snmp version.<br>Please insert a correct snmp customized management ip version. |
 | 791000 | ParameterNull | SNMP Setting is required |
 | 793001 | InternalServerError | System framework level error |
+
+# cURL Code from Postman:
+```python
+curl --location --request PUT 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 609299f6-abbe-4a8c-a9ff-deb6a69451c2' \
+--data-raw '{
+    "HostName": "US-BOS-R1",
+    "SNMP_setting":{
+        "roString":"public"
+    }
+}'
+```
