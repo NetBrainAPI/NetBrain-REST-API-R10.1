@@ -148,7 +148,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
 full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting"
 data = {
-    "hostname": "US-BOS-R1",
+    "hostname": "US-BOS-R1"
 }
 # Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -166,9 +166,9 @@ try:
 
 except Exception as e: print (str(e))
  ```
- {'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'API_setting': [{'API_plugin': 'ServiceNow API Adapter', 'API_server': {'name': 'ServiceNow1750'}}]}], 'statusCode': 790200, 'statusDescription': 'Success.'}
+	{'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'API_setting': [{'API_plugin': 'ServiceNow API Adapter', 'API_server': {'name': 'ServiceNow1750'}}]}], 'statusCode': 790200, 'statusDescription': 'Success.'}
  
- # cURL Code from Postman:
+> # cURL Code from Postman:
  ```python
 curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting?hostname=US-BOS-R1' \
 --header 'Content-Type: application/json' \
