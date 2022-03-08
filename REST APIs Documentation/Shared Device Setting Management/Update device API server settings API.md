@@ -9,7 +9,7 @@ This API is used to update device API server settings in current domain. The res
 
 >**Title:** Update device API server settings API
 
->**Version:** 05/27/2020
+>**Version:** 03/8/2020
 
 >**API Server URL:** http(s)://IP Address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting
 
@@ -134,6 +134,7 @@ except Exception as e: print (str(e))
 	{'statusCode': 790200, 'statusDescription': 'Success.'}
 
 # cURL Code from Postman:
+```python
 curl --location --request PUT 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
