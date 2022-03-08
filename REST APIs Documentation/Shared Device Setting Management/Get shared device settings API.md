@@ -68,7 +68,10 @@ Response
 | shareDeviceSettings.HostName                                                         | string      | Device hostname.                                                |
 | shareDeviceSettings.ManageIp                                                         | string      | Device management IP address.                                   |
 | shareDeviceSettings.ApplianceId                                                      | string      | Name of front server.                                           |
-| shareDeviceSettings.Locked                                                           | bool        | Whether the device setting has been locked.                     |
+| shareDeviceSettings.Locked                              | bool        | WARNING: With the NetBrain 10.1 release, the device setting main lock feature has been upgraded to 3 individual separate locks on Management IP, Front Server, and CLI/SNMP/API settings. Considering backward compatibility, this parameter is remained in 10.1 version, and will be deprecated in a near future version. According to the feature upgrade, the meaning of this parameter values is slightly different from older versions. Code upgrade is not mandatory in this version. However, it is highly recommended to read the updated description carefully and prepare for your code upgrade soon before the deprecation to take advantages from utilizing the more flexible setting capabilities.<br>Whether the device setting has been locked.<br>true – 1 or more settings are locked.<br>false – None of Management IP, Front Server, CLI/SNMP/API settings is locked. |
+| shareDeviceSettings.Locked_manageIp                     | bool        | Whether the Management IP setting is locked.                                                                                                            |
+| shareDeviceSettings.Locked_applianceId                  | bool        | Whether the Front Server setting is locked.                                                                                                             |
+| shareDeviceSettings.Locked_liveAccess                 | bool        | Whether the CLI/SNMP/API settings are locked.                                                                                                           |
 | shareDeviceSettings.LiveStatus                                                       | integer     | live status of current device.                                  |
 | shareDeviceSettings.CLI_setting                                                      | object      | CLI setting of current device.                                  |
 | shareDeviceSettings.CLI_setting.mode                                                 | string      | mode for cli access.                                            |
@@ -113,10 +116,13 @@ Response
 
 **Example**
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```python
 {  
     "Shared device setting" : {
-        "Locked" : False,
+        "Locked" : true,
+        "Locked_manageIp": true,
+        "Locked_applianceId": true,
+        "Locked_liveAccess": false,
         "LiveStatus" : 1,
         "HostName" : "CP-SW1",
         "ApplianceId" : "FS1",
@@ -191,7 +197,7 @@ Response
         }
     }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 **Response Code**
 
