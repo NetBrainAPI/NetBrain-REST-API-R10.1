@@ -12,7 +12,7 @@ Detail Information
 
 >   **Title:** Get shared device settings API
 
->   **Version:** 05/27/2020
+>   **Version:** 03/08/2022
 
 >   **API Server URL:** http(s)://IP Address of NetBrain Web API
 >   Server/ServicesAPI/API/V1/CMDB/SharedDeviceSettings
@@ -117,85 +117,63 @@ Response
 **Example**
 
 ```python
-{  
-    "Shared device setting" : {
-        "Locked" : true,
-        "Locked_manageIp": true,
-        "Locked_applianceId": true,
-        "Locked_liveAccess": false,
-        "LiveStatus" : 1,
-        "HostName" : "CP-SW1",
-        "ApplianceId" : "FS1",
-        "ManageIp" : "192.168.0.58",
-        "CLI_setting" : {
-            "mode":"string",
-            "access_mode":"string",
-            "access_mode_port":"string"/int,
-            "CLI_credential_username":"string",
-            "privilege_username":"string",                     
-            "Telnet_Proxy_Id" : "string",
-            "Telnet_Proxy_Id_For_Smart_CLI" : "string",
-            "prompt_settings":{
-                "non_privilege_prompt":"string",
-                "privilege_prompt":"string",
-                "login_prompt_username":"string",
-                "privilege_login_prompt_username":"string"
-            },
-            "advenced_setting":{
-                "ForceTimeout" : int,
-                "SSH_key_setting":{
-                    "checkSSHFingerprint" : true,
-                    "SSHFingerprintKey" : "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+{
+    "shareDeviceSettings": [
+        {
+            "HostName": "US-BOS-R1",
+            "ManageIp": "10.8.1.51",
+            "ApplianceId": "netbrainfs",
+            "Locked": false,
+            "Locked_manageIp": false,
+            "Locked_applianceId": false,
+            "Locked_cli_snmp_api": false,
+            "LiveStatus": 1,
+            "CLI_setting": {
+                "mode": "Direct Access",
+                "access_mode": "SSH",
+                "access_mode_port": 22,
+                "CLI_credential_username": "netbrain",
+                "privilege_username": "",
+                "Telnet_Proxy_Id": "",
+                "Telnet_Proxy_Id_For_Smart_CLI": "",
+                "prompt_settings": {
+                    "non_privilege_prompt": "US-BOS-R1#",
+                    "privilege_prompt": "US-BOS-R1#",
+                    "login_prompt_username": "Username:",
+                    "login_prompt_password": "Password:",
+                    "privilege_login_prompt": "",
+                    "privilege_password_prompt": "Password:"
+                },
+                "advenced_setting": {
+                    "ForceTimeout": 600,
+                    "SSH_key_setting": {
+                        "checkSSHFingerprint": false,
+                        "SSHFingerprintKey": ""
+                    }
                 }
-            }
-        },
-        "SNMP_setting" : {
-                  "roString": "=",
-                  "rwString": "=",
-                  "snmpID": null,
-                  "snmpPort": 161,
-                  "v3": "AliesName",
-                  "snmpVersion": 1/2/3,
-                  "UseCustomizedManagementIp": false,
-                  "CustomizedManagementIp": {
-                    "retrieve_CPU":"string",
-                    "retrieve_memory":"string",
-                    "ManageIp": "",
-                    "LiveStatus": int,
-                    "snmpVersion": "string",
-                    "ro": "string",
-                    "rw": "string",
-                    "v3": "AliesName"
-                  }  
             },
-        "API_setting" : {[
+            "SNMP_setting": {
+                "roString": "public",
+                "rwString": "",
+                "snmpPort": 161,
+                "snmpVersion": 2,
+                "retrieve_CPU": "",
+                "retrieve_memory": "",
+                "UseCustomizedManagementIp": false,
+                "v3": ""
+            },
+            "API_setting": [
                 {
-                    "API_plugin" : "string",
-                    "API_server" : {
-                        "name" : "string"/null,
-                        "front_server" : "string"/null
-                    }     
-                },
-                {
-                    "API_plugin" : "string",
-                    "API_server" : {
-                        "name" : "string"/null,
-                        "front_server" : "string"/null
-                    }  
-                },
-                {
-                    "API_plugin" : "string",
-                    "API_server" : {
-                        "name" : "string"/null,
-                        "front_server" : "string"/null
-                    }     
-                },
-                .
-                .
-                .
+                    "API_plugin": "ServiceNow API Adapter",
+                    "API_server": {
+                        "name": "ServiceNow1750"
+                    }
+                }
             ]
         }
-    }
+    ],
+    "statusCode": 790200,
+    "statusDescription": "Success."
 }
 ```
 
@@ -206,3 +184,46 @@ Response
 | 790200 | OK                  |                                                                                                                                                                                    |
 | 791001 | InvalidParameter    | Parameter 'skip' must be a positive numeric value.<br>Parameter 'limit' must be greater than or equal to 10 and less than or equal to 100.<br>Invalid IP address provided: {0}.|
 | 793001 | InternalServerError | System framework level error                                                                                                                                                       |
+
+
+ ## Full Example : 
+ ```python
+ # import python modules 
+import requests
+import time
+import urllib3
+import pprint
+import json
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Set the request inputs
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings"
+data = {
+    "hostname": ["US-BOS-R1","US-BOS-R2"]
+}
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+try:
+    # Do the HTTP request
+    response = requests.get(full_url, params = data, headers=headers, verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Get shared device settings failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
+```
+	{'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'CLI_setting': {'mode': 'Direct Access', 'access_mode': 'SSH', 'access_mode_port': 22, 'CLI_credential_username': 'netbrain', 'privilege_username': '', 'Telnet_Proxy_Id': '', 'Telnet_Proxy_Id_For_Smart_CLI': '', 'prompt_settings': {'non_privilege_prompt': 'US-BOS-R1#', 'privilege_prompt': 'US-BOS-R1#', 'login_prompt_username': 'Username:', 'login_prompt_password': 'Password:', 'privilege_login_prompt': '', 'privilege_password_prompt': 'Password:'}, 'advenced_setting': {'ForceTimeout': 600, 'SSH_key_setting': {'checkSSHFingerprint': False, 'SSHFingerprintKey': ''}}}, 'SNMP_setting': {'roString': 'public', 'rwString': '', 'snmpPort': 161, 'snmpVersion': 2, 'retrieve_CPU': '', 'retrieve_memory': '', 'UseCustomizedManagementIp': False, 'v3': ''}, 'API_setting': [{'API_plugin': 'ServiceNow API Adapter', 'API_server': {'name': 'ServiceNow1750'}}]}, {'HostName': 'US-BOS-R2', 'ManageIp': '10.8.1.53', 'ApplianceId': 'netbrainfs', 'Locked': True, 'Locked_manageIp': True, 'Locked_applianceId': True, 'Locked_cli_snmp_api': True, 'LiveStatus': 1, 'CLI_setting': {'mode': 'Direct Access', 'access_mode': 'Telnet', 'access_mode_port': 23, 'CLI_credential_username': 'nb', 'privilege_username': '', 'Telnet_Proxy_Id': '', 'Telnet_Proxy_Id_For_Smart_CLI': '', 'prompt_settings': {'non_privilege_prompt': 'US-BOS-R2>', 'privilege_prompt': 'US-BOS-R2#', 'login_prompt_username': 'username:', 'login_prompt_password': 'password:', 'privilege_login_prompt': '', 'privilege_password_prompt': 'password:'}, 'advenced_setting': {'ForceTimeout': 600, 'SSH_key_setting': {'checkSSHFingerprint': False, 'SSHFingerprintKey': ''}}}, 'SNMP_setting': {'roString': 'public', 'rwString': '', 'snmpPort': 161, 'snmpVersion': 2, 'retrieve_CPU': '', 'retrieve_memory': '', 'UseCustomizedManagementIp': False, 'v3': ''}}], 'statusCode': 790200, 'statusDescription': 'Success.'}
+	
+# cURL Code from Postman:
+ ```python
+ curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings?hostname=US-BOS-R1' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 609299f6-abbe-4a8c-a9ff-deb6a69451c2'
+ ```
