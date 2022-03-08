@@ -45,7 +45,7 @@ This API is used to update device API server settings in current domain. The res
 |------|------|------|
 |token|string|Authentication token, get from login API.|
 
-***Body Example***
+***Example***
 ```python
 API Body = {  
         "HostName" : "CP-SW1",
