@@ -25,8 +25,8 @@ This API is used to update device basic settings in current domain. The response
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
-|HostName*| string | Device hostname. |
-|ManageIp* | string | Device management IP address. |
+|HostName*| string | Device hostname. It is required if no input on ManageIp|
+|ManageIp* | string | Device management IP address. It is required if no input on HostName|
 |ApplianceId | string | Name of front server. |
 |Locked | bool | WARNING: With the NetBrain 10.1 release, the device setting main lock feature has been upgraded to 3 individual separate locks on Management IP, Front Server, and CLI/SNMP/API settings. Considering backward compatibility, this parameter is remained in 10.1 version, and will be deprecated in a near future version. According to the feature upgrade, the meaning of this parameter values is slightly different from older versions. Code upgrade is not mandatory in this version. However, it is highly recommended to read the updated description carefully and prepare for your code upgrade soon before the deprecation to take advantages from utilizing the more flexible setting capabilities.<br>To lock the device settings.<br>true – Set Management IP, Front Server, CLI/SNMP/API all as locked.<br>false – Set Management IP, Front Server, CLI/SNMP/API all as unlocked.<br>This parameter will overwrite Locked_manageIp/Locked_applianceId/Locked_cli_snmp_api settings. Don't use them mixed.|
 |Locked_manageIp | bool | Whether the Management IP setting is locked. |
