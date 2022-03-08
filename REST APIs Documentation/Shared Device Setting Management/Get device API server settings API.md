@@ -168,7 +168,7 @@ except Exception as e: print (str(e))
  ```
 	{'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'API_setting': [{'API_plugin': 'ServiceNow API Adapter', 'API_server': {'name': 'ServiceNow1750'}}]}], 'statusCode': 790200, 'statusDescription': 'Success.'}
  
-> # cURL Code from Postman:
+# cURL Code from Postman:
  ```python
 curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting?hostname=US-BOS-R1' \
 --header 'Content-Type: application/json' \
