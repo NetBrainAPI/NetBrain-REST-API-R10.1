@@ -9,7 +9,7 @@ This API is used to get device SNMP settings in current domain. The response of 
 
 >**Title:** Get device SNMP settings API
 
->**Version:** 05/27/2020
+>**Version:** 03/08/2022
 
 >**API Server URL:** http(s)://IP Address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting
 
@@ -60,7 +60,10 @@ This API is used to get device SNMP settings in current domain. The response of 
 |shareDeviceSettings.HostName| string | Device hostname. |
 |shareDeviceSettings.ManageIp | string | Device management IP address. |
 |shareDeviceSettings.ApplianceId | string | Name of front server. |
-|shareDeviceSettings.Locked| bool | Whether the device setting has been locked. |
+| shareDeviceSettings.Locked                              | bool        | WARNING: With the NetBrain 10.1 release, the device setting main lock feature has been upgraded to 3 individual separate locks on Management IP, Front Server, and CLI/SNMP/API settings. Considering backward compatibility, this parameter is remained in 10.1 version, and will be deprecated in a near future version. According to the feature upgrade, the meaning of this parameter values is slightly different from older versions. Code upgrade is not mandatory in this version. However, it is highly recommended to read the updated description carefully and prepare for your code upgrade soon before the deprecation to take advantages from utilizing the more flexible setting capabilities.<br>Whether the device setting has been locked.<br>true – 1 or more settings are locked.<br>false – None of Management IP, Front Server, CLI/SNMP/API settings is locked. |
+| shareDeviceSettings.Locked_manageIp                     | bool        | Whether the Management IP setting is locked.                                                                                                            |
+| shareDeviceSettings.Locked_applianceId                  | bool        | Whether the Front Server setting is locked.                                                                                                             |
+| shareDeviceSettings.Locked_liveAccess                 | bool        | Whether the CLI/SNMP/API settings are locked.                                                                                                           |
 |shareDeviceSettings.LiveStatus| integer | live status of current device. |
 |shareDeviceSettings.SNMP_setting| object | SNMP setting of current device. |
 |shareDeviceSettings.SNMP_setting.roString| string  | value of device snmp RO.  |
@@ -90,8 +93,12 @@ This API is used to get device SNMP settings in current domain. The response of 
 
 ```python
 {  
-    "Shared device setting" : {
-        "Locked" : False,
+    "Shared device setting" : [
+	{
+        "Locked" : true,
+        "Locked_manageIp": true,
+        "Locked_applianceId": true,
+        "Locked_liveAccess": false,
         "LiveStatus" : 1,
         "HostName" : "CP-SW1",
         "ApplianceId" : "FS1",
@@ -113,9 +120,12 @@ This API is used to get device SNMP settings in current domain. The response of 
             "ro": "string",
             "rw": "string",
             "v3": "AliesName"
-          }  
-        }
+			}  
+		}
     }
+	],
+    "statusCode": 790200,
+    "statusDescription": "Success."
 }
 ```
 
@@ -126,3 +136,45 @@ This API is used to get device SNMP settings in current domain. The response of 
 | 790200 | OK                  |                                                                                                                                                                                    |
 | 791001 | InvalidParameter    | Parameter 'skip' must be a positive numeric value.<br>Parameter 'limit' must be greater than or equal to 10 and less than or equal to 100.<br>Invalid IP address provided: {0}.|
 | 793001 | InternalServerError | System framework level error                                                                                                                                                       |
+
+ ## Full Example : 
+ ```python
+# import python modules 
+import requests
+import time
+import urllib3
+import pprint
+import json
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Set the request inputs
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting"
+data = {
+    "hostname": ["US-BOS-R1","US-BOS-R2"]
+}
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+try:
+    # Do the HTTP request
+    response = requests.get(full_url, params = data, headers=headers, verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Get device SNMP settings failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
+```
+	{'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'SNMP_setting': {'roString': 'public', 'rwString': '', 'snmpPort': 161, 'snmpVersion': 2, 'retrieve_CPU': '', 'retrieve_memory': '', 'UseCustomizedManagementIp': False, 'v3': ''}}, {'HostName': 'US-BOS-R2', 'ManageIp': '10.8.1.53', 'ApplianceId': 'netbrainfs', 'Locked': True, 'Locked_manageIp': True, 'Locked_applianceId': True, 'Locked_cli_snmp_api': True, 'LiveStatus': 1, 'SNMP_setting': {'roString': 'public', 'rwString': '', 'snmpPort': 161, 'snmpVersion': 2, 'retrieve_CPU': '', 'retrieve_memory': '', 'UseCustomizedManagementIp': False, 'v3': ''}}], 'statusCode': 790200, 'statusDescription': 'Success.'}
+
+# cURL Code from Postman:
+ ```python
+ curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/SNMPSetting?hostname=US-BOS-R1' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 609299f6-abbe-4a8c-a9ff-deb6a69451c2'
+ ```
