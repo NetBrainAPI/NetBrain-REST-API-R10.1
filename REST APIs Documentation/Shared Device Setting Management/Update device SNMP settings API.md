@@ -41,6 +41,21 @@ This API is used to update device SNMP settings in current domain. The response 
 |SNMP_setting.CustomizedManagementIp.ro| string | value of customized management IP RO. |
 |SNMP_setting.CustomizedManagementIp.rw| string | value of customized management IP RW. |
 
+## Headers
+
+>**Data Format Headers**
+
+|**Name**|**Type**|**Description**|
+|------|------|------|
+|Content-Type|string|support "application/json"|  
+|Accept|string|support "application/json"|
+
+>**Authorization Headers**
+
+|**Name**|**Type**|**Description**|
+|------|------|------|
+|token|string|Authentication token, get from login API.|
+
 ***Example***
 
 ```python
@@ -67,21 +82,6 @@ API Body = {
         }
 }
 ```
-
-## Headers
-
->**Data Format Headers**
-
-|**Name**|**Type**|**Description**|
-|------|------|------|
-|Content-Type|string|support "application/json"|  
-|Accept|string|support "application/json"|
-
->**Authorization Headers**
-
-|**Name**|**Type**|**Description**|
-|------|------|------|
-|token|string|Authentication token, get from login API.|
 
  ## Full Example : 
  ```python
