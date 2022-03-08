@@ -133,3 +133,45 @@ Response
 |        |                     | Parameter 'limit' must be greater than or equal to 10 and less than or equal to 100.                                                                                    |
 |        |                     | Invalid IP address provided: {0}.                                                                                                                                       |
 | 793001 | InternalServerError | System framework level error                                                                                                                                            |
+
+ ## Full Example : 
+ ```python
+ # import python modules 
+import requests
+import time
+import urllib3
+import pprint
+import json
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Set the request inputs
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting"
+data = {
+    "hostname": "US-BOS-R1",
+}
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+try:
+    # Do the HTTP request
+    response = requests.get(full_url, params = data, headers=headers, verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Get device API server settings failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
+ ```
+ {'shareDeviceSettings': [{'HostName': 'US-BOS-R1', 'ManageIp': '10.8.1.51', 'ApplianceId': 'netbrainfs', 'Locked': False, 'Locked_manageIp': False, 'Locked_applianceId': False, 'Locked_cli_snmp_api': False, 'LiveStatus': 1, 'API_setting': [{'API_plugin': 'ServiceNow API Adapter', 'API_server': {'name': 'ServiceNow1750'}}]}], 'statusCode': 790200, 'statusDescription': 'Success.'}
+ 
+ # cURL Code from Postman:
+ ```python
+curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/SharedDeviceSettings/APIServerSetting?hostname=US-BOS-R1' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 609299f6-abbe-4a8c-a9ff-deb6a69451c2'
+ ```
