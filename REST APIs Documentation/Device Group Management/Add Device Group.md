@@ -128,7 +128,7 @@ except Exception as e: print (str(e))
 ```
 
 # cURL Code from Postman
-
+```python
 curl --location --request POST 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/DeviceGroups' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
@@ -137,7 +137,7 @@ curl --location --request POST 'https://unicorn-new.netbraintech.com/ServicesAPI
     "name":"Shared Device Groups/Test Device Group"  
 }
 '
-
+```
 # Error Examples
 ```python
 ###################################################################################################################    
