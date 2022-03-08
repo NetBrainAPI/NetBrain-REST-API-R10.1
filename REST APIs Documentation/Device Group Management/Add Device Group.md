@@ -8,7 +8,7 @@ This API call adds a device group
 
 > **Title** : Add Device Group API<br>
 
-> **Version** : 10/08/2019.
+> **Version** : 03/08/2022
 
 > **API Server URL** : http(s):// IP address of your NetBrain Web API Server /ServicesAPI/V1/CMDB/DeviceGroups
 
@@ -24,20 +24,10 @@ This API call adds a device group
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|name* | string  | The name of device group. This parameter is required.  |
-|type* | string  | The type of device group - private/public/policy. This parameter is required.  |
+|name* | string  | The full path of a device group. This parameter is required.  |
+|type  | string  | This parameter is only required when full path is not provided in name, and the name is a group name only instead of a group path. The type of device group - private/public/policy. This parameter is required.  |
 |description | string  | The description of the task. This field is optional.  |
 
-> ### ***Example***
-
-
-```python
-body = {
-    "name": "devicegroup1",
-    "type": "policy",
-    "description": "test device group1"
-}
-```
 
 ## Parameters(****required***)
 
@@ -73,73 +63,82 @@ body = {
 > ***Example***
 
 
-```python
-{
-    "statusCode": 790200,
-    "statusDescription": "Success."
-}
-```
-
 # Full Example :
-
-
 ```python
 # import python modules 
 import requests
-import time
 import urllib3
-import pprint
 import json
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set the request inputs
-token = "ad3c616e-5f3d-45e9-9ba1-bb71f003a098"
-nb_url = "http://192.168.28.143"
-full_url = nb_url + "/ServicesAPI/API/V1/CMDB/DeviceGroups"
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/DeviceGroups"
+body = {
+    "name": "Test Device Group",
+    "type":"public",
+    "description": "This is a test Device Group for API call"
+}
+# Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 headers["Token"] = token
-
-data = {
-    "name": "Device Group 1",
-    "type": "policy",
-    "description": "Test Device Group 1"
-}
-
 try:
-    response = requests.post(full_url, data = json.dumps(data), headers = headers, verify = False)
+    # Do the HTTP request
+    response = requests.post(full_url, data = json.dumps(body), headers=headers, verify=False)
+    # Check for HTTP codes other than 200
     if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
         result = response.json()
         print (result)
     else:
-        print ("Add device group failed! - " + str(response.text))
-    
-except Exception as e:
-    print (str(e)) 
+        print ("Create Device Group failed! - " + str(response.text))
 
+except Exception as e: print (str(e))
 ```
 
-    {'statusCode': 790200, 'statusDescription': 'Success.'}
-    
+```python
+# import python modules 
+import requests
+import urllib3
+import json
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Set the request inputs
+token = "609299f6-abbe-4a8c-a9ff-deb6a69451c2"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/DeviceGroups"
+body = {
+    "name": "Shared Device Groups/Test Device Group2",
+}
+# Set proper headers
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+headers["Token"] = token
+try:
+    # Do the HTTP request
+    response = requests.post(full_url, data = json.dumps(body), headers=headers, verify=False)
+    # Check for HTTP codes other than 200
+    if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
+        result = response.json()
+        print (result)
+    else:
+        print ("Create Device Group failed! - " + str(response.text))
+
+except Exception as e: print (str(e))
+
+```
 
 # cURL Code from Postman
 
-
-```python
-curl -X POST \
-  http://192.168.28.143/ServicesAPI/API/V1/CMDB/DeviceGroups \
-  -H 'accept: application/json' \
-  -H 'content-type: application/json' \
-  -H 'token: ad3c616e-5f3d-45e9-9ba1-bb71f003a098' \
-  -d '{
-    "name": "Device Group 1",
-    "type": "policy",
-    "description": "Test Device Group 1"
-}'
-```
+curl --location --request POST 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/DeviceGroups' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 609299f6-abbe-4a8c-a9ff-deb6a69451c2' \
+--data-raw '{
+    "name":"Shared Device Groups/Test Device Group"  
+}
+'
 
 # Error Examples
-
-
 ```python
 ###################################################################################################################    
 
@@ -164,7 +163,7 @@ Response:
 
 Input:
     
-    "name": "Device Group 1",
+    "name":"Shared Device Groups/Test Device Group",
     "type": "policy"
     
 Response:        
@@ -172,7 +171,7 @@ Response:
     "Device Group already exists! - 
         {
             "statusCode":791007,
-            "statusDescription":"device group: {}, type: {} already exists."
+            "statusDescription":"device group: Test Device Group, location in name: Shared Device Groups already exists."
         }"
 
 ###################################################################################################################    
