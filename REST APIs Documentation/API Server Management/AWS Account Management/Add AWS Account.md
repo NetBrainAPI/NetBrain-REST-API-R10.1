@@ -62,7 +62,7 @@ Using this API call to add an AWS account in API Server Manager.
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|id| string | The ID of this new API Server |
+|id| string | The API Server ID|
 |statusCode| integer | The returned status code of executing the API.  |
 |statusDescription| string | The explanation of the status code. |
 
