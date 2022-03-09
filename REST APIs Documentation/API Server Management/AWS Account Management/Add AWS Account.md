@@ -75,6 +75,12 @@ Using this API call to add an AWS account in API Server Manager.
 }
 
 ```
+## Response Codes
+|**Code**|**Message**|**Description**|
+|------|------|------|
+| 790200 | OK |  |
+| 791000 | ParameterNull | account id is missing<br>name is missing<br>frontServerAndGroupId is missing|
+| 791007 | ExistedDataInSystem | accound id already exists in system<br> name already exists in system|
 
 # Full Example :
 
@@ -114,8 +120,9 @@ try:
         print ("Add AWS account failed! - " + str(response.text))
 
 except Exception as e: print (str(e))
-
 ```
+	{'id': 'e534ab19-cc60-43af-8cc4-7150e8d9e544', 'statusCode': 790200, 'statusDescription': 'Success.'}
+	
 > ***Example 2***
 ```python
 # import python modules 
@@ -154,6 +161,7 @@ try:
 
 except Exception as e: print (str(e))
 ```
+	{'id': 'f434ab19-cc60-43af-8cc4-7150e8d9e565', 'statusCode': 790200, 'statusDescription': 'Success.'}
 
 # cURL Code from Postman
 ```python
