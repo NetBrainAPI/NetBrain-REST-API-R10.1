@@ -60,10 +60,10 @@ This API call adds a device group
 |statusDescription| string | The explanation of the status code. |
 |deviceGroupID| string | The ID of device group |
 
-> ***Example***
-
 
 # Full Example :
+
+> ***Example 1***
 ```python
 # import python modules 
 import requests
@@ -96,6 +96,7 @@ try:
 except Exception as e: print (str(e))
 ```
 
+> ***Example 2***
 ```python
 # import python modules 
 import requests
