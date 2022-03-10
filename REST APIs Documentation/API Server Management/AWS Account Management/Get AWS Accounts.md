@@ -26,8 +26,9 @@ Using this API call to get AWS accounts in API Server Manager. The encrypted fie
 ## Parameters(****required***)  
 |**Name**|**Type**|**Description**|
 |------|------|------|
-|accountId|string|The account ID(Endpoint) of AWS|
-|name|string|API Server Name|
+|<img width=100/>|<img width=100/>|<img width=500/>|
+|accountId|string|The account ID(Endpoint) of AWS |
+|name|string|API Server Name |
 
 > **Note** : The API call will return all AWS accounts if not specify any accountId or name in parameters. If both parameters are provided in the request, NetBrain primarily picks accountId.
 
