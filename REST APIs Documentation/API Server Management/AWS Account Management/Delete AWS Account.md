@@ -1,7 +1,7 @@
 
 # AWS Account Management Design
 
-## ***DELETE*** /V1/CMDB/DeviceGroups
+## ***DELETE*** /V1/CMDB/ApiServers/AWSAccounts/{id}
 Using this API call to delete an AWS account in API Server Manager.
 
 ## Detail Information

@@ -1,7 +1,7 @@
 
 # AWS Account Management Design
 
-## ***POST*** /V1/CMDB/DeviceGroups
+## ***POST*** /V1/CMDB/ApiServers/AWSAccounts
 Using this API call to add an AWS account in API Server Manager.
 
 ## Detail Information

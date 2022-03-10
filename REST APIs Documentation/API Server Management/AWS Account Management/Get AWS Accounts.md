@@ -1,16 +1,16 @@
 
 # AWS Account Management Design
 
-## ***GET*** /V1/CMDB/ApiServers/AWSAccounts/{id}
-Using this API call to get an AWS account in API Server Manager. The encrypted field are not returned.
+## ***GET*** /V1/CMDB/ApiServers/AWSAccounts
+Using this API call to get AWS accounts in API Server Manager. The encrypted field are not returned.
 
 ## Detail Information
 
-> **Title** : Get AWS Account API<br>
+> **Title** : Get AWS Accounts API<br>
 
 > **Version** : 03/09/2022
 
-> **API Server URL** : http(s):// IP address of your NetBrain Web API Server /ServicesAPI/V1/CMDB/ApiServers/AWSAccounts/{id}
+> **API Server URL** : http(s):// IP address of your NetBrain Web API Server /ServicesAPI/V1/CMDB/ApiServers/AWSAccounts
 
 > **Authentication** : 
 
@@ -24,8 +24,12 @@ Using this API call to get an AWS account in API Server Manager. The encrypted f
 > No parameters required.
 
 ## Parameters(****required***)
+>Note: The API call will return all AWS accounts if not specify any accountId or name in parameters. If both parameters are provided in the request, NetBrain primarily picks accountId.  
+|**Name**|**Type**|**Description**|
+|------|------|------|
+|accountId|string|The account ID(Endpoint) of AWS|
+|name|string|API Server Name|
 
-> No parameters required.
 
 ## Headers
 
@@ -63,42 +67,36 @@ Using this API call to get an AWS account in API Server Manager. The encrypted f
 |statusCode| integer | The returned status code of executing the API.  |
 |statusDescription| string | The explanation of the status code. |
 
-> ***Example1***
+> ***Example***
 ```python
 {
-    "account": {
-        "id": "fdf263b5-701e-4312-857d-e3e55b0305ea",
-        "accountId": "111111111",
-        "name": "AWS API Account",
-        "desc": "own by dev team",
-        "frontServerAndGroupId": "netbrainfs",
-        "AccessMethod": "KeyBased",
-        "AWS_SERVER_PUBLIC_KEY": "AAAAAAAAAAAAAAAAAAA"
-    },
-    "statusCode": 790200,
-    "statusDescription": "Success."
-}
-
-```
-
-> ***Example2***
-```python
-{
-    "account": {
-        "id": "c21dfe6a-34b1-4501-b1db-9ee6d90630e4",
-        "accountId": "44444",
-        "name": "AWS API TEST3",
-        "desc": "Test API call",
-        "frontServerAndGroupId": "netbrainfs",
-        "AccessMethod": "RoleBased",
-        "RoleName": "AccessByMonitorAccount",
-        "ExternalId": "ExternalIdSample",
-        "SessionName": "NetbrainMonitor"
-    },
+    "accounts": [
+        {
+            "id": "c21dfe6a-34b1-4501-b1db-9ee6d90630e4",
+            "accountId": "123456789",
+            "name": "AWS API TEST3",
+            "desc": "Test API call",
+            "frontServerAndGroupId": "netbrainfs",
+            "AccessMethod": "RoleBased",
+            "RoleName": "AccessByMonitorAccount",
+            "ExternalId": "ExternalIdSample",
+            "SessionName": "NetbrainMonitor"
+        },
+        {
+            "id": "fdf263b5-701e-4312-857d-e3e55b0305ea",
+            "accountId": "987654321",
+            "name": "AWS API Account",
+            "desc": "own by dev team",
+            "frontServerAndGroupId": "netbrainfs",
+            "AccessMethod": "KeyBased",
+            "AWS_SERVER_PUBLIC_KEY": "AAAAAAAAAAAAAAAAAAA"
+        }
+    ],
     "statusCode": 790200,
     "statusDescription": "Success."
 }
 ```
+
 ## Response Codes
 |**Code**|**Message**|**Description**|
 |------|------|------|
@@ -114,9 +112,8 @@ import json
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set the request inputs
-token = "3a7b2475-70f7-4a60-953c-c69626772959"
-api_Server_id = "c21dfe6a-34b1-4501-b1db-9ee6d90630e4"
-full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/ApiServers/AWSAccounts/" + api_Server_id
+token = "b0049a91-5d6f-4f8d-9bde-43270d9678c7"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/ApiServers/AWSAccounts"
 # Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 headers["Token"] = token
@@ -129,16 +126,16 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Get AWS account failed! - " + str(response.text))
+        print ("Get AWS accounts failed! - " + str(response.text))
 
 except Exception as e: print (str(e))
 ```
-	{'account': {'id': 'c21dfe6a-34b1-4501-b1db-9ee6d90630e4', 'accountId': '44444', 'name': 'AWS API TEST3', 'desc': 'Test API call', 'frontServerAndGroupId': 'netbrainfs', 'AccessMethod': 'RoleBased', 'RoleName': 'AccessByMonitorAccount', 'ExternalId': 'ExternalIdSample', 'SessionName': 'NetbrainMonitor'}, 'statusCode': 790200, 'statusDescription': 'Success.'}
+	{'accounts': [{'id': 'c21dfe6a-34b1-4501-b1db-9ee6d90630e4', 'accountId': '44444', 'name': 'AWS API TEST3', 'desc': 'Test API call', 'frontServerAndGroupId': 'netbrainfs', 'AccessMethod': 'RoleBased', 'RoleName': 'AccessByMonitorAccount', 'ExternalId': 'ExternalIdSample', 'SessionName': 'NetbrainMonitor'}, {'id': 'fdf263b5-701e-4312-857d-e3e55b0305ea', 'accountId': '111111111', 'name': 'AWS API Account', 'desc': 'own by dev team', 'frontServerAndGroupId': 'netbrainfs', 'AccessMethod': 'KeyBased', 'AWS_SERVER_PUBLIC_KEY': 'AAAAAAAAAAAAAAAAAAA'}], 'statusCode': 790200, 'statusDescription': 'Success.'}
 
 # cURL Code from Postman
 ```python
-curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/ApiServers/AWSAccounts/c21dfe6a-34b1-4501-b1db-9ee6d90630e4' \
+curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/ApiServers/AWSAccounts' \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
---header 'token: 3a7b2475-70f7-4a60-953c-c69626772959'
+--header 'token: b0049a91-5d6f-4f8d-9bde-43270d9678c7'
 ```
