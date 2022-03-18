@@ -22,7 +22,7 @@ To see the list of all REST APIs view "REST APIs Documentation".<br>
 
 
 ## Section 1) Golden Use Case Templates
-1) [Get Path Detail Information by Calling APIs](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/Golden%20Use%20Case%20Templates/Get%20Path%20By%20Calling%20APIs%20V8.0.md)<br>
+1) [Get Path Detail Information by Calling APIs](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/Golden%20Use%20Case%20Templates/Get%20Path%20By%20Calling%20APIs.md)<br>
 2) [Sites Management by Calling APIs](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/Golden%20Use%20Case%20Templates/Sites%20Management%20by%20Calling%20APIs.md)<br>
 3) [Calling Trigger Diagnosis API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/Golden%20Use%20Case%20Templates/Calling%20Trigger%20Diagnosis%20API.md)<br>
 4) [Discovery and Devices Management by Calling APIs](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/Golden%20Use%20Case%20Templates/Discovery%20and%20Devices%20Management%20by%20Calling%20APIs.md)<br>
@@ -179,6 +179,16 @@ To see the list of all REST APIs view "REST APIs Documentation".<br>
 6) [Update device CLI settings API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/Shared%20Device%20Setting%20Management/Update%20device%20CLI%20settings%20API.md)<br>
 7) [Update device SNMP settings API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/Shared%20Device%20Setting%20Management/Update%20device%20SNMP%20settings%20API.md)<br>
 8) [Update device basic settings API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/Shared%20Device%20Setting%20Management/Update%20device%20basic%20settings%20API.md)<br>
+
+### [TAF (Triggered Automation Framework)](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/tree/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework))
+1) [Create IT System Data Model API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/1%20-%20Create%20IT%20System%20Data%20Model%20API.md)
+2) [Auto Trigger API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/2%20-%20Auto%20Trigger%20API.md)
+3) [Get Trigger Result API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/3%20-%20Get%20Trigger%20Result%20API.md)
+4) [Get Trigger Diagnosis Definition API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/4%20-%20Get%20Trigger%20Diagnosis%20Definition%20API.md)
+5) [Manually Trigger API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/5%20-%20Manually%20Trigger%20API.md)
+6) [Update Incident Message API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/6%20-%20Update%20Incident%20Message%20API.md)
+7) [Get Temporary Incident Portal Access Token API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/7%20-%20Get%20Temporary%20Incident%20Portal%20Access%20Token%20API.md)
+8) [Verify User Permission API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/8%20-%20Verify%20User%20Permission%20API.md)
 
 ### [Tenants and Domains Management](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/tree/main/REST%20APIs%20Documentation/Tenants%20and%20Domains%20Management) 
 1) [Add Domain API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/Tenants%20and%20Domains%20Management/Add%20Domain%20API.md)<br>
