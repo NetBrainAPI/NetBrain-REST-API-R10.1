@@ -150,6 +150,13 @@ False: no t include device’s neighbors|
 | tracert_settings[].destination_interface | string | destination interface name |
 | tracert_settings[].timeout_seconds | int | time out seconds |
 | tracert_settings[].max_hops | int | max hops |
+| option.scope | string | multi-tenancy scope name |
+| option.tenantId | string | tenant id |
+| option.domainId | string | domain id |
+| option.source | string | Integrated IT System source |
+| option.nbIncidentId | string | Incident ID |
+| option.incidentDevices | Array | incident devices, data same as incident_setting.device |
+| option.specificData* | object | Integrated IT System source |
 
 > ***Example:***
 
@@ -181,7 +188,7 @@ body = {
     },
     
     # Section 2): from the end of section 1) til here, we consider as section 2. If users familiar with Netbrain GUI, we can 
-    # we can tottally create four kinds of dynamic maps. Same way, by input an integer value of "map_create_mode" 
+    # we can totally create four kinds of dynamic maps. Same way, by input an integer value of "map_create_mode" 
     # (0: Map Device and Its Neighbors. 1: Open Site Map of the Device. 2: Open Existing Map. 3: Map a Path. 4: Create an 
     # Empty Map.). We can also provide different maps by calling API. But with different value of "map_create_mode" provided, 
     # different required attribute would be needed in rest of section 2). Check the detail in following steps.
@@ -284,7 +291,18 @@ body = {
         "destination": "",
         "destination_interface": "",
         "max_hops": 50
-    }]
+    }],
+	
+	#Section 7) Domain scope and incident merge
+	"option":{
+		"scope":"",
+		"tenantId":"",
+		"domainId":"",
+		"source":"",
+		"nbIncidentId":"",
+		"incidentDevices":[],
+		"specificData":{}
+	}
     
 }
 ```
