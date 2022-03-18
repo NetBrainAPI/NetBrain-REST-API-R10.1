@@ -1,16 +1,16 @@
 
 # Device API Design
 
-## ***GET*** /V1/CMDB/Devices/GroupDevices/{groupname}
-Call this API to get all devices in the device group within the group name provided by user.
+## ***GET*** /V1/CMDB/Devices/GroupDevices
+Call this API to get all devices from a device group.
 
 ## Detail Information
 
 > **Title** : Get Group Devices API<br>
 
-> **Version** : 01/25/2019.
+> **Version** : 03/18/2022
 
-> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/Devices/GroupDevices/{groupName}
+> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V1/CMDB/Devices/GroupDevices
 
 > **Authentication** : 
 
@@ -19,16 +19,20 @@ Call this API to get all devices in the device group within the group name provi
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |Bearer Authentication| Headers | Authentication token | 
 
-## Request body(****required***)
+## Body Parameters(****required***)
 
 > No request body.
 
 ## Path Parameters(****required***)
 
+> No parameter required.
+
+## Query Parameters(****required***)
+
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-| groupName* | string  | The name of one device group which user want to present. |
+| path | string  | Full path of a specific device group |
 
 ## Headers
 
@@ -66,152 +70,76 @@ Call this API to get all devices in the device group within the group name provi
 
 
 ```python
-# Successful response with groupName = "testGroupGDL1"
+# Successful response with groupPath = "Shared Device Groups/NICUseCaseTrain/training_case4_check_eigrp_interface_hello_timer_mismatch"
 
 {
     "devices": [
         {
-            "id": "1b558e72-6671-48f8-849e-7f7df473e3aa",
-            "mgmtIP": "123.20.20.20",
-            "hostname": "R20"
+            "id": "10fcca98-610b-48c3-b380-335f7cc83a78",
+            "mgmtIP": "10.20.0.82",
+            "hostname": "EIGRP-R13-C3725"
         },
         {
-            "id": "1d8c841f-a9bc-4288-aab2-6322bbb1ab1b",
-            "mgmtIP": "10.18.19.19",
-            "hostname": "R19"
+            "id": "1ac62c06-5046-480f-a824-c2627506b332",
+            "mgmtIP": "10.20.0.21",
+            "hostname": "EIGRP-R1"
         },
         {
-            "id": "1e8029be-a858-48bd-b532-54b694edc529",
-            "mgmtIP": "10.120.14.5",
-            "hostname": "R3"
+            "id": "623efdc7-fbc9-4dfa-9bf7-99e29464e8c8",
+            "mgmtIP": "10.20.0.14",
+            "hostname": "EIGRP-R3"
         },
         {
-            "id": "2ef50fff-eb73-49da-8599-45c68b876275",
-            "mgmtIP": "10.18.19.18",
-            "hostname": "R18"
-        },
-        {
-            "id": "b95dbda8-64a0-44cb-a12e-79478a2e1f3b",
-            "mgmtIP": "123.20.1.10",
-            "hostname": "R17"
-        },
-        {
-            "id": "eb31a451-3236-4681-b46e-9084e7e01765",
-            "mgmtIP": "10.120.15.1",
-            "hostname": "R2"
-        },
-        {
-            "id": "f51f6e8e-d4ef-47af-9139-74a18691c052",
-            "mgmtIP": "123.20.1.2",
-            "hostname": "R16"
+            "id": "71892107-bc65-490c-b54f-f4d50c7314ce",
+            "mgmtIP": "10.20.0.17",
+            "hostname": "EIGRP-R2"
         }
     ],
     "statusCode": 790200,
     "statusDescription": "Success."
 }
-
-# If customer don't have enough privilige:
-{
-    "statusCode":795003,
-    "statusDescription":"Insufficient permissions: the current user has insufficient permissions to perform the requested operation. The user has no tenant or domain access permission.sharePolicyManagement"
-}
 ```
 
 # Full Example
-
-
 ```python
 # import python modules 
 import requests
-import time
 import urllib3
-import pprint
 import json
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set the request inputs
-token = "e074d192-3f21-4ae8-b5f1-405d240b65ca"
-nb_url = "http://192.168.28.79"
-groupName = "testGroupGDL1"
-
-full_url= nb_url + "/ServicesAPI/API/V1/CMDB/Devices/GroupDevices/" + str(groupName)
+token = "9670caa0-ec51-4fb8-89f8-b3f94c60372d"
+full_url = "https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/Devices/GroupDevices"
+data = {
+    "path": "Shared Device Groups/NICUseCaseTrain/training_case4_check_eigrp_interface_hello_timer_mismatch"
+}
+# Set proper headers
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-headers["Token"]=token
-
+headers["Token"] = token
 try:
-    response = requests.get(full_url, headers=headers, verify=False)
+    # Do the HTTP request
+    response = requests.get(full_url, params = data, headers=headers, verify=False)
+    # Check for HTTP codes other than 200
     if response.status_code == 200:
+        # Decode the JSON response into a dictionary and use the data
         result = response.json()
         print (result)
     else:
-        print ("Get Group Devices Failed! - " + str(response.text))
-except Exception as e:
-    print (str(e))
-```
+        print ("Get devices from a device group failed- " + str(response.text))
 
-    {'devices': [{'id': '1b558e72-6671-48f8-849e-7f7df473e3aa', 'mgmtIP': '123.20.20.20', 'hostname': 'R20'}, {'id': '1d8c841f-a9bc-4288-aab2-6322bbb1ab1b', 'mgmtIP': '10.18.19.19', 'hostname': 'R19'}, {'id': '1e8029be-a858-48bd-b532-54b694edc529', 'mgmtIP': '10.120.14.5', 'hostname': 'R3'}, {'id': '2ef50fff-eb73-49da-8599-45c68b876275', 'mgmtIP': '10.18.19.18', 'hostname': 'R18'}, {'id': 'b95dbda8-64a0-44cb-a12e-79478a2e1f3b', 'mgmtIP': '123.20.1.10', 'hostname': 'R17'}, {'id': 'eb31a451-3236-4681-b46e-9084e7e01765', 'mgmtIP': '10.120.15.1', 'hostname': 'R2'}, {'id': 'f51f6e8e-d4ef-47af-9139-74a18691c052', 'mgmtIP': '123.20.1.2', 'hostname': 'R16'}], 'statusCode': 790200, 'statusDescription': 'Success.'}
-    
+except Exception as e: print (str(e))
+
+```
+	{'devices': [{'id': '10fcca98-610b-48c3-b380-335f7cc83a78', 'mgmtIP': '10.20.0.82', 'hostname': 'EIGRP-R13-C3725'}, {'id': '1ac62c06-5046-480f-a824-c2627506b332', 'mgmtIP': '10.20.0.21', 'hostname': 'EIGRP-R1'}, {'id': '623efdc7-fbc9-4dfa-9bf7-99e29464e8c8', 'mgmtIP': '10.20.0.14', 'hostname': 'EIGRP-R3'}, {'id': '71892107-bc65-490c-b54f-f4d50c7314ce', 'mgmtIP': '10.20.0.17', 'hostname': 'EIGRP-R2'}], 'statusCode': 790200, 'statusDescription': 'Success.'}
 
 # cURL Code from Postman
-
-
 ```python
-curl -X GET \
-  http://192.168.28.79/ServicesAPI/API/V1/CMDB/Devices/GroupDevices/testGroupGDL1 \
-  -H 'Postman-Token: 8ae37a86-5404-4e59-89d7-851fb44265a5' \
-  -H 'Token: e074d192-3f21-4ae8-b5f1-405d240b65ca' \
-  -H 'cache-control: no-cache'
+curl --location --request GET 'https://unicorn-new.netbraintech.com/ServicesAPI/API/V1/CMDB/Devices/GroupDevices?path=Shared Device Groups/NICUseCaseTrain/training_case4_check_eigrp_interface_hello_timer_mismatch' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'token: 9670caa0-ec51-4fb8-89f8-b3f94c60372d' \
+--data-raw ''
 ```
 
-# Error Examples and Note
 
-
-```python
-###################################################################################################################    
-
-"""Error 1: empty group name"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Input:
-    
-    groupName = "" #There is no device with a hostname called "blahblahblah" in users working domain.
-    
-Response:
-    
-    "Get Group Devices Failed! - 
-        {
-            "statusCode":793404,
-            "statusDescription":"No resource"
-        }"
-        
-###################################################################################################################    
-
-"""Error 2: no input"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-Input:
-    
-    #There is no input which means only url and token
-    
-Response:
-    
-    "Get Group Devices Failed! - 
-        {
-            "statusCode":793404,
-            "statusDescription":"No resource"
-        }"
-        
-###################################################################################################################    
-
-"""Error 2: no groups name as group name the user provided """
-
-Input:
-    
-    groupName = "blahblahblah" #There is no group called "blahblahblah"
-    
-Response:
-    
-    "Get Group Devices Failed! - 
-        {
-            "statusCode":791006,
-            "statusDescription":"Device group blahblahblah does not exist."
-        }"
-```
