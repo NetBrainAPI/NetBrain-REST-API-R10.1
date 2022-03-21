@@ -157,6 +157,18 @@ False: no t include device’s neighbors|
 | option.nbIncidentId | string | Incident ID |
 | option.incidentDevices | Array | incident devices, data same as incident_setting.device |
 | option.specificData* | object | Integrated IT System source |
+|incident_setting|object|create incident for task if not null|
+|incident_setting.subject*|string|incident subject|
+|incident_setting.description|string|incident description|
+|incident_setting.enablePortal|bool|enable or disable incident Portal|
+|incident_setting.access_code|string|set access code of incident|
+|incident_setting.occurred_time_utc|DateTime|actual time of incident occurred|
+|incident_setting.properties|object|customized properties of incident,must be json object<br>The value cannot be an array, if the value is another object, it's elements' value cannot be object.|
+|incident_setting.devices|array|set devices and interfaces of incident|
+|incident_setting.device[].device|string|device name|
+|incident_setting.device[].description|string|device description|
+|incident_setting.device[].interfaces|array|interface name|
+
 
 > ***Example:***
 
@@ -303,6 +315,8 @@ body = {
 		"incidentDevices":[],
 		"specificData":{}
 	}
+	
+	
     
 }
 ```
