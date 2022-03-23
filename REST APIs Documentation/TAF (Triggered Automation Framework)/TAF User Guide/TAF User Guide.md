@@ -291,7 +291,7 @@ if __name__ == '__main__':
     '''
     [DEV USE ONLY] Default NetBrain server connection info.
     '''
-    default_endpoint = "https://unicorn-new.netbraintech.com"
+    default_endpoint = "https://integration.netbraintech.com"
     default_username = "api_user"
     default_password = "api_password"
     
@@ -825,7 +825,7 @@ import time
 
 if __name__ == '__main__':
     api = LegacyThirdPartyAPIRequestSession(
-        'https://unicorn-new.netbraintech.com/servicesapi')
+        'https://integration.netbraintech.com/servicesapi')
 
     api.login('api_user', 'api_password')
     tenant_guid = api.get_tenant_guid_by_name("Initial Tenant")
