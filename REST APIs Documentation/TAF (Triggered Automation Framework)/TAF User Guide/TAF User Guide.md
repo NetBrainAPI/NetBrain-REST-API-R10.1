@@ -292,8 +292,8 @@ if __name__ == '__main__':
     [DEV USE ONLY] Default NetBrain server connection info.
     '''
     default_endpoint = "https://unicorn-new.netbraintech.com"
-    default_username = "haoran.song"
-    default_password = "Netbr@in1"
+    default_username = "test_user"
+    default_password = "test_password"
     
     '''
     User input to initiate NetBrain connection.
@@ -827,7 +827,7 @@ if __name__ == '__main__':
     api = LegacyThirdPartyAPIRequestSession(
         'https://unicorn-new.netbraintech.com/servicesapi')
 
-    api.login('haoran.song', 'Netbr@in1')
+    api.login('test_user', 'test_password')
     tenant_guid = api.get_tenant_guid_by_name("Initial Tenant")
     print(tenant_guid)
     domain_guid = api.get_domain_guid_by_name(tenant_guid, "Demo-Lab")
