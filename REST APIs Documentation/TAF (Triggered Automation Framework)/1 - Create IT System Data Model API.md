@@ -27,7 +27,7 @@ This API helps to automate the IT System Data Model creation process.
 |<img width=100/>|<img width=100/>|<img width=500/>|
 | name | String | Source name. To create a new definition, the name must be a new unique name. Otherwise, the definition will be merged to the existing definition. |
 | description | String | Description |
-| source | String | Source URL Address |
+| source | String | The URL Address value of the Integrated IT System Source |
 | categories | Array of Objects | IT System Data Model categories |
 | categories.name | String | IT System Data Model category name |
 | categories.fields | Array of Objects | Category fields |

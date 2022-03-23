@@ -24,10 +24,10 @@ Use this API to query triggered task results.
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-|options.scope | String  | Mandatory parameter in multi-tenancy scenario, if the tenantId and domainId are not indicated inteh request to specify a particular working domain.<br> If there is only 1 domain in the entire NetBrain system, this parameter is not required. |
+|options.scope | String  | Mandatory parameter in multi-tenancy scenario, if the tenantId and domainId are not indicated in the request to specify a particular working domain.<br> If there is only 1 domain in the entire NetBrain system, this parameter is not required. |
 |options.tenantId | String  | To specify a particular working tenant. |
 |options.domainId | String  | To specify a particular working domain. |
-|*options.taskId | String  | **TO BE CLARIFIED**<br>The taskId returned from a particular trigger. |
+|*options.taskId | String  | The taskId returned from a particular trigger. |
 
 
 ## Query Parameters(****required***)
@@ -67,7 +67,7 @@ Use this API to query triggered task results.
 |NIResults[].name| String | NI name. |
 |NIResults[].niResultId| String | NI result ID. |
 |NIResults[].mapId| String | Map ID of the NI. |
-|NIResults[].mapName| String | **TO BE CLARIFIED. NOT FOUND IN TEST RESPONSE.**<br>Map name of the NI. |
+|NIResults[].mapName| String | Map name of the NI. |
 |NIResults[].messages| Array | The status code and message of the NI execution. |
 |NIResults[].messages[].type| Integer | Status code types.<br>1: Success<br>2: Error |
 |NIResults[].messages[].message| String | The message details of a status code. |

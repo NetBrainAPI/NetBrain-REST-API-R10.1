@@ -25,13 +25,13 @@ Use this API to make a specific trigger task.
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |*specificData | Object  | JSON type. The event data from a third party system. |
-|options.scope | String  | Mandatory parameter in multi-tenancy scenario, if the tenantId and domainId are not indicated inteh request to specify a particular working domain.<br> If there is only 1 domain in the entire NetBrain system, this parameter is not required. |
+|options.scope | String  | Mandatory parameter in multi-tenancy scenario, if the tenantId and domainId are not indicated in the request to specify a particular working domain.<br> If there is only 1 domain in the entire NetBrain system, this parameter is not required. |
 |options.tenantId | String  | To specify a particular working tenant. |
 |options.domainId | String  | To specify a particular working domain. |
 |*options.source | String  | To specify a trigger source address of an Integrated IT System Data Field definition.<br>The information must be pre-defined in a record of Integrated IT System in System Management.  |
 |options.category | String  | To specify a category of an Integrated IT System Data Field definition.<br>The information must be pre-defined in the same record of Integrated IT System in System Management as the indicated source of the same request. |
-|options.nbIncidentId | String  | **TO BE CLARIFIED** |
-|options.taskId | String  | **TO BE CLARIFIED**<br>The taskId returned from a particular trigger.<br>This parameter is used to indicate a taskId returned from an existing triggered task. To do so, a previously matched Incident Type information can be directly picked instead of going through NetBrain incident type look up process, to prevent a task from utilizing NetBrain system resource unnecessarily.<br>Use as needed to improve event processing performance. |
+|options.nbIncidentId | String  | Use this parameter to indicate an existing NetBrain incident. With this parameter provided, the system will ignore incident type merging process. |
+|options.taskId | String  | The taskId returned from a particular trigger.<br>This parameter is used to indicate a taskId returned from an existing triggered task. To do so, a previously matched Incident Type information can be directly picked instead of going through NetBrain incident type look up process, to prevent a task from utilizing NetBrain system resource unnecessarily.<br>Use as needed to improve event processing performance. **Only use this parameter if you don't want NetBrain system to do the incident type lookup.**|
 |*options.diagnosisId| String | To specify a Triggered Diagnosis definition ID. |
 |options.manuallyParams| Array | Triggered Diagnosis Filter for Member Network Intent setting. |
 |options.manuallyParams[].key| String | Key name. Keys can be obtained by [Get Triggered Diagnosis Definition API](https://). |
@@ -68,8 +68,8 @@ Use this API to make a specific trigger task.
 |statusDescription| string | The explanation of the status code.  |
 |tenantId| String | The task execution context - Tenant ID. |
 |domainId| String | The task execution context - Domain ID. |
-|incidentId| String | **TO BE CLARIFIED** |
-|incidentUrl| String | Trigger task generated incident ID. |
+|incidentId| String | Trigger task generated incident ID. |
+|incidentUrl| String | Trigger task generated incident URL. |
 |incidentPortalUrl| String | Trigger task generated incident portal URL. |
 |taskId| String | Trigger created task ID.  |
 
