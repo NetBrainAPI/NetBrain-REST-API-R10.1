@@ -17,14 +17,14 @@ There are 2 complete samples being provided.
 
 |**No.**|**API Link**|**API URI**|**Description**|
 |-----|-----|-----|-----|
-|1|[Create IT System Data Model](https://)|API/V1/TAF/AutoMapping|Use this API to create an IT System Data Model definition in System Management/Integrated IT Systems/Integrated IT Systems. This API helps to automate the IT System Data Model creation process.|
-|2|[Auto Trigger](https://)|API/V1/TAF/Auto|Use this API to send a third party system event data to NetBrain.|
-|3|[Get Trigger Result](https://)|API/V1/TAF/Result|Use this API to query triggered task results.|
-|4|[Get Triggerd Diagnosis Definition](https://)|API/V1/TAF/ManuallyDiagnosis|Use this API to query trigger definition on NetBrain end.|
-|5|[Manually Trigger](https://)|API/V1/TAF/Manually|Use this API to make a specific trigger task.|
-|6|[Update Incident Message](https://)|API/V1/TAF/Updated|Use this API to update event data to an existing NetBrain incident as incident message. The event data will be transformed to NetBrain incident message by the target incident related Incident Type Incident Message setting.|
-|7|[Get Temporary Incident Portal Access Token](https://)|API/V1/portal-auth-ticket|Use this API to get a temporary Incident Portal access token. The token will be appended into the URL to automatically get users into an Incident Portal record. This API can be used for a particular 3rd party system integration to automatically authenticate the 3rd party system users to a NetBrain Incident Portal record, which is triggered by the 3rd party system instance.|
-|8|[Verify User Permission](https://)|API/V1/CMDB/Users/checkPermission|Use this API to verify the current user privileges agains NetBrain system.|
+|1|[Create IT System Data Model](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/1%20-%20Create%20IT%20System%20Data%20Model%20API.md)|API/V1/TAF/AutoMapping|Use this API to create an IT System Data Model definition in System Management/Integrated IT Systems/Integrated IT Systems. This API helps to automate the IT System Data Model creation process.|
+|2|[Auto Trigger](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/2%20-%20Auto%20Trigger%20API.md)|API/V1/TAF/Auto|Use this API to send a third party system event data to NetBrain.|
+|3|[Get Trigger Result](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/3%20-%20Get%20Trigger%20Result%20API.md)|API/V1/TAF/Result|Use this API to query triggered task results.|
+|4|[Get Triggerd Diagnosis Definition](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/4%20-%20Get%20Trigger%20Diagnosis%20Definition%20API.md)|API/V1/TAF/ManuallyDiagnosis|Use this API to query trigger definition on NetBrain end.|
+|5|[Manually Trigger](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/5%20-%20Manually%20Trigger%20API.md)|API/V1/TAF/Manually|Use this API to make a specific trigger task.|
+|6|[Update Incident Message](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/6%20-%20Update%20Incident%20Message%20API.md)|API/V1/TAF/Updated|Use this API to update event data to an existing NetBrain incident as incident message. The event data will be transformed to NetBrain incident message by the target incident related Incident Type Incident Message setting.|
+|7|[Get Temporary Incident Portal Access Token](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/7%20-%20Get%20Temporary%20Incident%20Portal%20Access%20Token%20API.md)|API/V1/portal-auth-ticket|Use this API to get a temporary Incident Portal access token. The token will be appended into the URL to automatically get users into an Incident Portal record. This API can be used for a particular 3rd party system integration to automatically authenticate the 3rd party system users to a NetBrain Incident Portal record, which is triggered by the 3rd party system instance.|
+|8|[Verify User Permission](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/main/REST%20APIs%20Documentation/TAF%20(Triggered%20Automation%20Framework)/8%20-%20Verify%20User%20Permission%20API.md)|API/V1/CMDB/Users/checkPermission|Use this API to verify the current user privileges agains NetBrain system.|
 
 
 ## Manually Trigger a Self-Service Enabled Diagnosis
@@ -145,7 +145,7 @@ class LegacyThirdPartyAPIRequestSession(NBRequestSessionBase):
                     tenant_guid = self.get_tenant_guid_by_name(tenant_name)
                     domain_guid = self.get_domain_guid_by_name(tenant_guid,
                                                                domain_name)
-                    option["tenandId"] = tenant_guid
+                    option["tenantId"] = tenant_guid
                     option["domainId"] = domain_guid
                 else:
                     raise ValueError("Either tenant_name or domain_name \
@@ -178,13 +178,20 @@ class LegacyThirdPartyAPIRequestSession(NBRequestSessionBase):
         else:
             raise ValueError(response["statusDescription"])
     
-    def get_trigger_result(self, taskId):
+    def get_trigger_result(self, taskId, scope=None, 
+                           tenant_name = None, domain_name = None):
+        """
+        Get trigger result
+        :taskId: taskId returned from publish_event(), str
+        """
         body = {
             "option":{
-                "scope":"Demo",
                 "taskId":taskId
                 }
             }
+        option = self.set_taf_scope(scope=scope,tenant_name=tenant_name,
+                                    domain_name=domain_name)
+        body["option"] = {**body["option"], **option}
         response = self.post("/API/V1/TAF/Result",
                               data=json.dumps(body)).json()
         if response["statusCode"] == 790200:
@@ -291,9 +298,9 @@ if __name__ == '__main__':
     '''
     [DEV USE ONLY] Default NetBrain server connection info.
     '''
-    default_endpoint = "https://integration.netbraintech.com"
-    default_username = "api_user"
-    default_password = "api_password"
+    default_endpoint = "https://unicorn-new.netbraintech.com"
+    default_username = "haoran.song"
+    default_password = "Netbr@in1"
     
     '''
     User input to initiate NetBrain connection.
@@ -406,7 +413,7 @@ if __name__ == '__main__':
     
     while True:
         time.sleep(5)
-        result = api.get_trigger_result(trigger_result["taskId"])
+        result = api.get_trigger_result(trigger_result["taskId"], scope="Demo")
         print(result)
         if result["status"] not in [0,1]:
             break
@@ -648,7 +655,7 @@ class LegacyThirdPartyAPIRequestSession(NBRequestSessionBase):
                     tenant_guid = self.get_tenant_guid_by_name(tenant_name)
                     domain_guid = self.get_domain_guid_by_name(tenant_guid,
                                                                domain_name)
-                    option["tenandId"] = tenant_guid
+                    option["tenantId"] = tenant_guid
                     option["domainId"] = domain_guid
                 else:
                     raise ValueError("Either tenant_name or domain_name \
@@ -686,17 +693,20 @@ class LegacyThirdPartyAPIRequestSession(NBRequestSessionBase):
         else:
             raise ValueError(response["statusDescription"])
     
-    def get_trigger_result(self, taskId):
+    def get_trigger_result(self, taskId, scope=None, 
+                           tenant_name = None, domain_name = None):
         """
         Get trigger result
         :taskId: taskId returned from publish_event(), str
         """
         body = {
             "option":{
-                "scope":"Demo",
                 "taskId":taskId
                 }
             }
+        option = self.set_taf_scope(scope=scope,tenant_name=tenant_name,
+                                    domain_name=domain_name)
+        body["option"] = {**body["option"], **option}
         response = self.post("/API/V1/TAF/Result",
                               data=json.dumps(body)).json()
         if response["statusCode"] == 790200:
@@ -825,9 +835,9 @@ import time
 
 if __name__ == '__main__':
     api = LegacyThirdPartyAPIRequestSession(
-        'https://integration.netbraintech.com/servicesapi')
+        'https://unicorn-new.netbraintech.com/servicesapi')
 
-    api.login('api_user', 'api_password')
+    api.login('haoran.song', 'Netbr@in1')
     tenant_guid = api.get_tenant_guid_by_name("Initial Tenant")
     print(tenant_guid)
     domain_guid = api.get_domain_guid_by_name(tenant_guid, "Demo-Lab")
@@ -850,7 +860,7 @@ if __name__ == '__main__':
     
     while True:
         time.sleep(5)
-        result = api.get_trigger_result(task["taskId"])
+        result = api.get_trigger_result(task["taskId"], scope="Demo")
         print(result)
         if result["status"] not in [0,1]:
             break
