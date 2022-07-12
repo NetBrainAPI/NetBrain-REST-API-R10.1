@@ -123,9 +123,9 @@ repeat this section for each of the Front Servers.
 
 >   **Endpoint:** *Cisco SNTC EOX Data retriving endpoint (“https://api.cisco.com/supporttools/eox/rest/5/EOXBySerialNumber/1/”)*
 
->   **Username:** *Cisco SNTC guest account’s username*
+>   **Username:** *KEY of Cisco OAuth2 client credentials* (Cisco Doc: https://developer.cisco.com/docs/support-apis/#!application-registration/application-registration)
 
->   **Password:** *Cisco SNTC password*
+>   **Password:** *CLIENT SECRET of Cisco OAuth2 client credentials* (Cisco Doc: https://developer.cisco.com/docs/support-apis/#!application-registration/application-registration)
 
 >   **Front Server/Front Server Group:** Select FS/FSG which would have
 >   reachability to Cisco SNTC cloud server
