@@ -7,7 +7,7 @@ Use this API to share NetBrain automation resources, such as Runbook Templates, 
 This API shares the resources by implementing an exporting and importing process from the source tenant to the target tenants. The post-share resource status aligns with the system behavior.<br><br>
 Required system privileges:
 1. Domain access of the source resource allocated domain.
-2. ShareResourceManagement privilege to domains of the target tenants.
+2. ShareResourceManagement privilege to any domain/domains of the target tenants.
 
 ## Detail Information
 
