@@ -11,17 +11,17 @@ Use Case
 Description
 -----------
 
-Using ThousandEyes API provided by P&G, Netbrain has created an integration compatible with Netbrain Integration 10.0 (or newer) that enables Netbrain users to overlay ThousandEyes instant test results data on Netbrain maps.
+Using publicly available ThousandEyes API, Netbrain has created an integration compatible with Netbrain Integration 8.0 (or newer) that enables Netbrain users to overlay ThousandEyes instant test results data on Netbrain maps.
 With this integration, Netbrain overlay the following extended information as attributes.
 
-1.Average Latency
-2.Maximum Latency
-3.Minimum Latency
-4.Loss
-5.Jitter
-6.Test Agent Id
-7.Test Agent Name
-8.Created Date
+1. Average Latency
+2. Maximum Latency
+3. Minimum Latency
+4. Loss
+5. Jitter
+6. Test Agent Id
+7. Test Agent Name
+8. Created Date
 
 Netbrain Map with ThousandEyes Data Overlay
 -----------------------------------------
