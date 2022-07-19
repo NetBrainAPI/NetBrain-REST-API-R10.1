@@ -28,7 +28,7 @@ Netbrain Map with ThousandEyes Data Overlay
 
 The diagram below shows ThousandEyes instant data overlay on devices.
 
-<img src="media/map.JPG" />
+<img src="media/map.jpg" />
 
 Pre-requisites
 ==============
@@ -117,9 +117,9 @@ repeat this section for each of the Front Servers.
 5.  Click “Test” to initiate a connectivity test between the NetBrain front server and the ThousandEyes API endpoint configured. Pictured below is the result of a successful connectivity test followed by two typical failure scenarios: Incorrect credentials and connectivity between NetBrain and ThousandEyes cloud.
 
 
-| **Successful Connection**  |<img src="media/success.JPG" />                                    |
+| **Successful Connection**  |<img src="media/success.jpg" />                                    |
 |----------------------------|-------------------------------------------------------------|
-| **Error Scenario:** The entered credentials are incorrect. **Possible Resolution:** Confirm credentials specified in the ThousandEyes API Adaptor configuration and retry.                                         |<img src="media/clientCredential.JPG" /> |
+| **Error Scenario:** The entered credentials are incorrect. **Possible Resolution:** Confirm credentials specified in the ThousandEyes API Adaptor configuration and retry.                                         |<img src="media/clientCredential.jpg" /> |
 | **Error Scenario:** ThousandEyes cloud endpoint is unreachable. **Possible Resolution:** Confirm that the NetBrain Front Server(s) can reach the ThousandEyes API endpoint using 3rd party tools (Ping, Traceroute, Wireshark). Or confirm your endpoint inserted correctly.  |<img src="media/endpointFail.JPG" /> |
 
 Import ThousandEyes Data View Template
@@ -192,9 +192,9 @@ repeat this section for each of the Front Servers.
 
 3.  In the *Device Group Properties* dialog, Name the device group as follows:
 
-1.  Under *Devices and Interfaces*, click “+Dynamic Search”, then “Dynamic Search Device”.
+4.  Under *Devices and Interfaces*, click “+Dynamic Search”, then “Dynamic Search Device”.
 
-2.  22.	Search Scope: setup search scope to add all ThousandEyes enabled device in group
+5.  Search Scope: setup search scope to add all ThousandEyes enabled device in group
 
     **Search Scope:** *All Devices (default)*
 
@@ -202,32 +202,32 @@ repeat this section for each of the Front Servers.
 
     where *\<Front Server\>* is the front server specified in step 3.
 
-3.  Click “Search” to populate the device list to front server mapping.
+6.  Click “Search” to populate the device list to front server mapping.
 
-4.  Click “OK” button to create a *Dynamic Search* association.
+7.  Click “OK” button to create a *Dynamic Search* association.
 
-5.  In the *Device Group Properties* dialog, click “OK” to complete Device Group
+8.  In the *Device Group Properties* dialog, click “OK” to complete Device Group
     creation.
 
-6.  In the *Device Group Manager*, right-click the group object, then click “Open Group Map”.
+9.  In the *Device Group Manager*, right-click the group object, then click “Open Group Map”.
 
-7.  In the resulting NetBrain device group map, right-click any device, then
+10. In the resulting NetBrain device group map, right-click any device, then
     click “Shared Device Settings”.
 
-8.  In the *Shared Device Settings…* dialog, click the select the API tab then
+11. In the *Shared Device Settings…* dialog, click the select the API tab then
     populate the dropdown fields as follows:
 
     *ThousandEyes API Adaptor \| ThousandEyes API Server \<Front Server\> \|
     \<Select Front Server\>*
 
-9.  Check “Apply above Settings to device group”, then select *ThousandEyes DG
+12. Check “Apply above Settings to device group”, then select *ThousandEyes DG
     \<Front Server Hostname\>*
 
-10. In the API tab content table, check *ThousandEyes API Adaptor*
+13. In the API tab content table, check *ThousandEyes API Adaptor*
 
-11. Click “Submit”.
+14. Click “Submit”.
 
-12. Repeat steps 1-14 for each additional deployed Front Server.
+15. Repeat steps 1-14 for each additional deployed Front Server.
 
 Visualizing ThousandEyes Instant Test Data with NetBrain Data View Template
 ================================================================
