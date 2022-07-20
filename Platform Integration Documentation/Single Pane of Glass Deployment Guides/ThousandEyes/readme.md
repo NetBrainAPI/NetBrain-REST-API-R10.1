@@ -38,14 +38,14 @@ Application Version
 
 | Application                 | Version                   |
 |-----------------------------|---------------------------|
-| NetBrain Integrated Edition | IEv8.x, IEv10.0           |
+| NetBrain Integrated Edition | IEv8.0 and above          |
 
 Network Connectivity
 --------------------
 
 | Source                | Destination       | Protocol   |
 |-----------------------|-------------------|------------|
-| NetBrain Front Server | ThousandEyes Cloud| HTTP/HTTPS |
+| NetBrain Front Server | ThousandEyes Cloud| HTTPS |
 
 User Account and Privileges
 ---------------------------
