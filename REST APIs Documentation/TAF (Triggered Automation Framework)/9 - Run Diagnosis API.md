@@ -1,16 +1,16 @@
 
-# Auto Trigger API Design
+# Run Specific Incident Type API Design
 
-## ***POST*** /V1/TAF/Auto
-Use this API to send a third party system event data to NetBrain.
+## ***POST*** /V1/TAF/Run
+Use this API to run a specific incident type instead of going through incident type lookup process.
 
 ## Detail Information
 
-> **Title** : Auto Trigger API
+> **Title** : Run Diagnosis API
 
-> **Version** : 01/31/2022
+> **Version** : 07/19/2022
 
-> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V1/TAF/Auto
+> **API Server URL** : http(s)://IP address of NetBrain Web API Server/ServicesAPI/API/V1/TAF/Run
 
 > **Authentication** : 
 
@@ -28,10 +28,8 @@ Use this API to send a third party system event data to NetBrain.
 |option.scope | String  | Mandatory parameter in multi-tenancy scenario, if the tenantId and domainId are not indicated inteh request to specify a particular working domain.<br> If there is only 1 domain in the entire NetBrain system, this parameter is not required. |
 |option.tenantId | String  | To specify a particular working tenant. |
 |option.domainId | String  | To specify a particular working domain. |
-|*option.source | String  | To specify a trigger source address of an Integrated IT System Data Field definition.<br>The information must be pre-defined in a record of Integrated IT System in System Management.  |
-|option.category | String  | To specify a category of an Integrated IT System Data Field definition.<br>The information must be pre-defined in the same record of Integrated IT System in System Management as the indicated source of the same request. |
-|option.nbIncidentId | String  | Use this parameter to indicate an existing NetBrain incident. <br>This parameter is used to indicate an incident ID returned from an existing triggered task. To do so, a previously matched Incident Type information can be directly picked instead of going through NetBrain incident type lookup process, to prevent a task from utilizing NetBrain system resource unnecessarily.<br>Use as needed to improve event processing performance. **Only use this parameter if you don't want NetBrain system to do the incident type lookup.**  |
-|option.taskId | String  | Must be provided with nbIncidentId together. The taskId returned from a particular trigger.<br>This parameter is used to indicate a taskId returned from an existing triggered task. To do so, a previously matched Incident Type information can be directly picked instead of going through NetBrain incident type lookup process, to prevent a task from utilizing NetBrain system resource unnecessarily.<br>Use as needed to improve event processing performance. **Only use this parameter if you don't want NetBrain system to do the incident type lookup.** |
+|*option.incidentTypeName | String  | To specify an existing Incident Type to be executed. The incident type lookup process will be skipped.|
+|option.nbIncidentId | String  | Use this parameter to indicate an existing NetBrain incident. With this parameter provided, the system will update the incident and diagnosis messages into the incident being provided. |
 
 
 ## Query Parameters(****required***)
@@ -94,7 +92,7 @@ def getTokens(endpoint, user,password):
         return "error"
 
 def PublishEvent(endpoint, API_Body):
-    API_URL = r"/V1/TAF/Auto"
+    API_URL = r"/V1/TAF/Run"
     api_full_url = endpoint + API_URL
     try:
         api_result = requests.post(api_full_url, data=json.dumps(API_Body), headers=headers, verify=False)
@@ -121,8 +119,7 @@ api_body = {
     "specificData":specificData,
     "option": {
         "scope":"Demo",
-        "source":"https://notapplicable.com",
-        "category":"Event"
+        "incidentTypeName":"Python Sample"
     }
 }
 
