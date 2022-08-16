@@ -11,8 +11,8 @@ Use Case
 Description
 -----------
 
-Using publicly available ThousandEyes API, Netbrain has created an integration compatible with Netbrain Integration 8.0 (or newer) that enables Netbrain users to overlay ThousandEyes instant test results data on Netbrain maps.
-With this integration, Netbrain overlay the following extended information as attributes.
+Using publicly available ThousandEyes API, Netbrain has created an integration compatible with Netbrain Integration 8.0 (or newer) that enables Netbrain users to overlay ThousandEyes instant test results data on Netbrain maps. 
+With this integration, Netbrain first initiate an instant test from specified ThousandEyes test agent to network devices. When the test results come back, Netbrain overlay the following extended information as attributes.
 
 1. Average Latency
 2. Maximum Latency
