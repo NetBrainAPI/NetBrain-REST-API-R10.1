@@ -26,7 +26,7 @@ Use this API to get device name list for benchmark run result.
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |task | string  | The name of the task.  |
 |RunId | string  | optional, ID of the execution. If null, the API will return last run result  |
-|filterBy | int  | Filter of the device list. Default value is 0. <br>Possible values:<br>0: all deivces<br>1: retrieval failure devices<br>config retrieval failure devices<br>3: hostname changed devices  |
+|filterBy | int  | Filter of the device list. Default value is 0. <br>Possible values:<br>0: all deivces<br>1: retrieval failure devices<br>2: config retrieval failure devices<br>3: hostname changed devices  |
 |includeDeviceGroup | string  | Full path of the device group  |
 |excludeDeviceGroup | string  | Full path of the device group  |
 
@@ -99,7 +99,7 @@ headers = {
 response = requests.request("POST", url, headers=headers, data=payload)
 
 print(response.text)
-    
+```    
 
 # cURL Code from Postman
 
