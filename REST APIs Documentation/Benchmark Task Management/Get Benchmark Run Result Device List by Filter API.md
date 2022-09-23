@@ -65,11 +65,14 @@ Use this API to get device name list for benchmark run result.
 
 ```python
 {
-  "devices": [
-    "r1",
-    "r2",
-    "r3"
-  ]
+    "devices": [
+      "US-BOS-R1",
+      "US-BOS-R2",
+      "US-BOS-SW1",
+      "US-BOS-SW2"
+  ],
+    "statusCode": 790200,
+    "statusDescription": "Success."
 }
 ```
 
