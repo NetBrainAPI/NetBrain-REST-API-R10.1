@@ -41,7 +41,7 @@ def post_data(params):
             response_json = response.json()
             return response_json
         else:
-            return  + response.text
+            return response.text
     except Exception as e:
         return str(e)
         
