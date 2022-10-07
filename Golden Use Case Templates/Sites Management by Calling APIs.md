@@ -1,4 +1,4 @@
-#
+
 # Sites and  devices in sites modification
 During this use case, we are going to focus on Site API. We will create multiple sites with different types and add some devices into one site, in the end we will delete all sites we have created.
 
