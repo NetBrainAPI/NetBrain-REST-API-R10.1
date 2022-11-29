@@ -53,7 +53,7 @@ User Account and Privileges
 | Application                 | User Account | Required Role Assignment(s) |
 |-----------------------------|--------------|-----------------------------|
 | NetBrain Integrated Edition | Required     | System Admin                |
-| SNTC service                  | Required     | Client           |
+| SNTC service                  | Required     | User account with EOX V5 API privilege |
 
 Cisco SNTC Details
 --------------------
