@@ -169,7 +169,6 @@ data = {
 
 try:
     response = requests.get(full_url, params = data, headers = headers, verify = False)
-    #response = requests.delete(full_url, headers = headers, verify = False)
     if response.status_code == 200:
         result = response.json()
         print (result)
