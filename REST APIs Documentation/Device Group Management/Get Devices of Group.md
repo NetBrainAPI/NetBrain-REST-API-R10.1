@@ -3,7 +3,7 @@
 
 ## ***GET*** /V1/CMDB/DeviceGroups/{deviceGroupID}/devices
 This API is used to get devices from a device group.<br>
-The `deviceGroupID` used to call this API can be retrieved from [Get Device Group API](https://github.com/NetBrainAPI/NetBrain-REST-API-R12.1/blob/main/REST%20APIs%20Documentation/Device%20Group%20Management/Get%20Device%20Group%20API.md)
+The `deviceGroupID` used to call this API can be retrieved from [Get Device Group API](https://github.com/NetBrainAPI/NetBrain-REST-API-R10.1/blob/10.1.2/REST%20APIs%20Documentation/Device%20Group%20Management/Get%20Devices%20of%20Group.md)
 
 ## Detail Information
 
