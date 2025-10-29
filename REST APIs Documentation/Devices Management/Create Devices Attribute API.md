@@ -25,14 +25,13 @@ User can use the SetDeviceAttribute API to set a value for the created attribute
 
 |**Name**|**Type**|**Description**|
 |------|------|------|
-|||`*` - required|
 |<img width=100/>|<img width=100/>|<img width=500/>|
 |attributeName* | string  | The name of the attribute.  |
 |attributeDisplayName* | string | The display name of the attribute in <i>Device Details</i> of NetBrain IE system. |
 |deviceTypeNames | list | Specify the list of device types in which the created attribute would apply to. <br>When it is set to an empty list `[]`, the new device attribute will apply to all device types. <br>The value of this parameter corresponds to Device Type under <i>Multi-Vendor Support</i> in <i>Tenant Management</i>. |
 |dataType* | string/double/int/bool/list/table/time/mac  | The supported data types of the attribute.  |
 |subDataType | string | This parameter is only available for `list` type property.<br> The data type of each value in a list type property. |
-|columns | list of objects | This parameter is only available for `table` type property.<br>--`name`(string) - the sub property name (displayed as a column header).<br>--`displayName`(string) - the display name (alias) of the sub property (can be null).<br>--`dataType`(string) - the data type of the sub property.<br>--`isKey` (bool) - control whether to use the sub property as the key when comparing the table type property. The default value is False. |
+|columns | list of objects | This parameter is only available for `table` type property.<br>▪ `name`(string) - the sub property name (displayed as a column header).<br>▪ `displayName`(string) - the display name (alias) of the sub property (can be null).<br>▪ `dataType`(string) - the data type of the sub property.<br>▪ `isKey` (bool) - control whether to use the sub property as the key when comparing the table type property. The default value is False. |
 |isFullSearch* | bool | Set whether to use the property as an index in full scope search, including extended search and default search.  |
 
 > ***Example***
