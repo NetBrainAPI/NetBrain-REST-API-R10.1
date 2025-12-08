@@ -100,7 +100,7 @@ try:
         print (result)
     else:
         
-        print ("Get path calulation code failed! - " + str(response.text))
+        print ("Failed to Get Path Calculation Status! - " + str(response.text))
     
 except Exception as e:
     print (str(e))  

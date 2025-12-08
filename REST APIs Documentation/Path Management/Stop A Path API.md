@@ -96,12 +96,12 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Stop Path Failed! - " + str(response.text))
+        print ("Failed to Stop a Path! - " + str(response.text))
 except Exception as e:
     print (str(e))
 ```
 
-    Stop Path Failed! - {"statusCode":793001,"statusDescription":"Inner exception. please check system log(default location: log/NgThirdAPI.log)"}
+    Failed to Stop a Path! - {"statusCode":793001,"statusDescription":"Inner exception. please check system log(default location: log/NgThirdAPI.log)"}
     
 
 # cURL Code from Postman

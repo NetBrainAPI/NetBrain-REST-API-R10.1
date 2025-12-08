@@ -6,7 +6,7 @@ Calling this API to get the One-IP Table.
 
 If user provide an input value of "ip" attribute, then this API will return all items which have the same ip address in One-IP Table;
 
-If user set "IP = null" or " IP = "" " but provide the input values of "beginIndex" and "count", API will return One-IP Table with items number equal to "count" values start from "beginIndex". But notice that the default maximum value of "count" is 1000. So if the input value of "count" greater than 1000, API will only return 1000 itmes. And if start from beginIndex to the end of table, there are no enough count items, API will return the rest of items.
+If user set "IP = null" or " IP = "" " but provide the input values of "beginIndex" and "count", API will return One-IP Table with items number equal to "count" values start from "beginIndex". But notice that the default maximum value of "count" is 1000. So if the input value of "count" greater than 1000, API will only return 1000 items. And if start from beginIndex to the end of table, there are no enough count items, API will return the rest of items.
 
 >**Note:** The One-IP table records the physical connections for all IP addresses in your workspace. It is retrieved during the Layer 2 topology discovery. You can use the One-IP table to troubleshoot any Layer 2 connection issues.
 

@@ -106,7 +106,7 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Create module attribute failed! - " + str(response.text))
+        print ("Failed to Resolve Device Gateway! - " + str(response.text))
     
 except Exception as e:
     print (str(e)) 
@@ -140,7 +140,7 @@ Input:
     
 Response:
     
-    "Create module attribute failed! - 
+    "Failed to Resolve Device Gateway! - 
         {
             "statusCode":791000,
             statusDescription":"Null parameter: the parameter 'ipOrHost' cannot be null."
@@ -156,7 +156,7 @@ Input:
     
 Response:
     
-    "Create module attribute failed! - 
+    "Failed to Resolve Device Gateway! - 
         {
             "statusCode":792040,
             "statusDescription":"Gateway was not found."

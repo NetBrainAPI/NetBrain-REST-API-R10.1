@@ -1,7 +1,7 @@
 
 # Path Calculation Design
 
-***Note:*** the sequence of steps must be followed if customer want to use Path Calculation API.
+***Note:*** This page shows the sequence of steps that must be followed for a customer to properly use Path Calculation APIs.
 
 # Step 1 - Resolve device gateway
 =======================================================================================================================
@@ -113,7 +113,7 @@ def resolve_device_gateway(Resolve_Device_Gateway_url, token, ipOrHost, headers)
             result = response.json()
             return (result)
         else:
-            return ("Create module attribute failed! - " + str(response.text))
+            return ("Failed to Resolve Device Gateway! - " + str(response.text))
 
     except Exception as e:
         print (str(e))
@@ -283,7 +283,7 @@ def calculate_path(Calculate_Path_url, body, headers, token):
             result = response.json()
             return (result)
         else:
-            return ("Create module attribute failed! - " + str(response.text))
+            return ("Failed to Calculate Path! - " + str(response.text))
 
     except Exception as e:
         return (str(e)) 

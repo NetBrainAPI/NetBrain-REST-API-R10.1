@@ -125,7 +125,7 @@ try:
         result = response.json()
         print (result)
     else:
-        print ("Create module attribute failed! - " + str(response.text))
+        print ("Failed to Calculate Path! - " + str(response.text))
     
 except Exception as e:
     print (str(e)) 
@@ -181,25 +181,25 @@ Input:
     
 Response:
     
-    "Create module attribute failed! - 
+    "Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'sourceIP' cannot be null."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'destIP' cannot be null."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'protocol' cannot be null."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791001,"statusDescription":"Invalid parameter: the parameter 'pathAnalysisSet' is invalid."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'sourceGwIP' cannot be null."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'sourceGwDev' cannot be null."}
 
-    Create module attribute failed! - 
+    Failed to Calculate Path! - 
     {"statusCode":791000,"statusDescription":"Null parameter: the parameter 'sourceGwIntf' cannot be null."}"
     
 ###################################################################################################################    

@@ -158,7 +158,7 @@ try:
         print (result)
     else:
         
-        print ("Get path calulation result failed! - " + str(response.text))
+        print ("Failed to Get Path Calculation Result! - " + str(response.text))
     
 except Exception as e:
     print (str(e)) 
@@ -192,7 +192,7 @@ Input:
         
 Response:
      
-        "Get path calulation result failed! - 
+        "Failed to Get Path Calculation Result! - 
             {
                 "statusCode":793404,
                 "statusDescription":"No resource"
@@ -208,7 +208,7 @@ Input:
         
 Response:
      
-        "Get path calulation result failed! - 
+        "Failed to Get Path Calculation Result! - 
             {
                 "statusCode":794004,
                 "statusDescription":"Task 'sssssssssssssssssssssssssssss' does not exist."
@@ -224,7 +224,7 @@ Input:
         
 Response:
      
-        "Get path calulation result failed! - 
+        "Failed to Get Path Calculation Result! - 
             {
                 "hopList":[],
                 "statusCode":794008,
