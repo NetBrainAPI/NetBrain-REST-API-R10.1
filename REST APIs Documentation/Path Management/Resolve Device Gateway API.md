@@ -45,7 +45,7 @@ Call this API to retrieve the gateways for a device used as path source.
 |**Name**|**Type**|**Description**|
 |------|------|------|
 |<img width=100/>|<img width=100/>|<img width=500/>|
-| token | string  | Authentication token, get from login API. |
+| token | string  | Authentication token, retrieved from Login API. |
 
 ## Response
 
@@ -61,8 +61,6 @@ Call this API to retrieve the gateways for a device used as path source.
 
 
 > ***Example***
-
-
 ```python
 {
     "gatewayList": [
@@ -78,8 +76,6 @@ Call this API to retrieve the gateways for a device used as path source.
 ```
 
  # Full Example:
-
-
 ```python
 # import python modules 
 import requests
@@ -116,8 +112,6 @@ except Exception as e:
     
 
  # cURL Code form Postman:
-
-
 ```python
 curl -X GET \
   'http://192.168.28.79/ServicesAPI/API/V1/CMDB/Path/Gateways?ipOrHost=10.1.13.2' \
@@ -127,8 +121,6 @@ curl -X GET \
 ```
 
  # Error Examples:
-
-
 ```python
 ###################################################################################################################    
 
@@ -140,7 +132,7 @@ Input:
     
 Response:
     
-    "Failed to Resolve Device Gateway! - 
+    "Create module attribute failed! - 
         {
             "statusCode":791000,
             statusDescription":"Null parameter: the parameter 'ipOrHost' cannot be null."
@@ -156,7 +148,7 @@ Input:
     
 Response:
     
-    "Failed to Resolve Device Gateway! - 
+    "Create module attribute failed! - 
         {
             "statusCode":792040,
             "statusDescription":"Gateway was not found."
